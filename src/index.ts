@@ -2,7 +2,7 @@ import { debug, resolve } from "./deps.ts";
 
 import { DenoRead } from "./handlers/Read.ts";
 
-class DenoFs {
+export class DenoFs {
   filePath: string;
   decoder: TextDecoder = new TextDecoder("utf-8");
   read: DenoRead;
@@ -17,5 +17,3 @@ class DenoFs {
     return this.decoder.decode(input);
   }
 }
-
-export { DenoFs };
