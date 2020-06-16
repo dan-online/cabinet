@@ -1,7 +1,7 @@
 import { DenoFs } from "../index.ts";
 import { DenoFile } from "../utils/File.ts";
 
-class DenoRead {
+export class DenoRead {
   filePath: string;
   fs: DenoFs;
   constructor(fs: DenoFs) {
@@ -14,5 +14,3 @@ class DenoRead {
     return new DenoFile(this.fs, this.filePath, file);
   }
 }
-
-export { DenoRead };

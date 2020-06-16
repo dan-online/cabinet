@@ -16,7 +16,7 @@ const mimes = Object.entries(
  * @param filePath {string} - Path of the file resolved
  * @param data {string} - Raw data decoded using UTF-8
  */
-class DenoFile {
+export class DenoFile {
   private mimes: { mime: string; info: any }[] = mimes;
   /**
    * Path of the file
@@ -73,5 +73,3 @@ class DenoFile {
     ).toLowerCase();
   }
 }
-
-export { DenoFile };
