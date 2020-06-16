@@ -8,13 +8,15 @@ const mimes = Object.entries(
 /**
  * @name DenoFile
  * @description Contains info and the data of a requested file
- * @example
- * new DenoFile(DenoFs, resolve("./file.txt"), "12345")
  * @class
  * @constructor
  * @param fs {DenoFs} - Main Deno file handler
  * @param filePath {string} - Path of the file resolved
  * @param data {string} - Raw data decoded using UTF-8
+ * @example
+ * ```
+ * new DenoFile(DenoFs, resolve("./file.txt"), "12345")
+ * ```
  */
 export class DenoFile {
   private mimes: { mime: string; info: any }[] = mimes;
