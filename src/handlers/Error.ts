@@ -13,7 +13,7 @@ export class DenoError {
   }
   permissionError(err: Error) {
     throw new Error(
-      "permission denied when " + this.action.msg + ": " + this.action.file
+      "permission denied when " + this.action.msg + ": " + this.action.file,
     );
   }
   defaultError(err: Error) {

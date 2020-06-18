@@ -34,7 +34,7 @@ export class DenoRead {
   }
   callback(
     options: {} | ((err: Error | null, file: DenoFile) => void),
-    cb: (err: Error | null, file: DenoFile) => void
+    cb: (err: Error | null, file: DenoFile) => void,
   ) {
     if (!cb) throw new Error("Callback not specified!");
     Deno.readFile(this.filePath)

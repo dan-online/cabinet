@@ -57,7 +57,7 @@ export class DenoFile {
    */
   get mime() {
     const mimes = Object.entries(
-      JSON.parse(Deno.readTextFileSync(resolve("./src/assets/mimes.json")))
+      JSON.parse(Deno.readTextFileSync(resolve("./src/assets/mimes.json"))),
     ).map((x) => ({ mime: x[0], info: x[1] }));
     return (
       mimes.find((x: { mime: string; info: any }) =>
