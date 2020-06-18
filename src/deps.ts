@@ -1,1 +1,1 @@
-export { resolve } from "https://deno.land/std@0.57.0/path/mod.ts";
+export { resolve, dirname } from "https://deno.land/std@0.57.0/path/mod.ts";

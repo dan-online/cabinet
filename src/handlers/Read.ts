@@ -1,6 +1,7 @@
 import { DenoFs } from "../index.ts";
 import { DenoFile } from "../utils/File.ts";
 import { DenoError } from "./Error.ts";
+
 /**
  * @class
  * @name DenoRead
@@ -8,17 +9,30 @@ import { DenoError } from "./Error.ts";
  * @constructor
  * @example
  * ```
- * const { read } = new DenoFs("./file.txt");
+ * const { reader } = new DenoFs("./file.txt");
  * read.sync()
  * ```
  */
 export class DenoRead {
   filePath: string;
   fs: DenoFs;
+
   constructor(fs: DenoFs) {
     this.filePath = fs.filePath;
     this.fs = fs;
     return this;
+  }
+  read(
+    options: {} | ((err: Error | null, file: DenoFile) => void) = {},
+    callback?: (err: Error | null, file: DenoFile) => void
+  ) {
+    if (!callback && typeof options == "function") {
+      const cb = (err: Error | null, file: DenoFile) => options(err, file);
+      return this.callback({}, cb);
+    } else if (!callback) {
+      return this.sync(options);
+    }
+    return this.callback(options, callback);
   }
   sync(options?: {}) {
     let read;
@@ -43,6 +57,7 @@ export class DenoRead {
         return cb(null, new DenoFile(this.fs, this.filePath, file));
       })
       .catch((err) => new DenoError(err, { msg: "reading " + this.filePath }));
+    return new DenoFile(this.fs, this.filePath, ""); // type stuff, I hate doing this
   }
   promise(options: {}) {
     return new Promise((res: (file: DenoFile) => void, rej) => {

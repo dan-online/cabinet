@@ -1,7 +1,8 @@
-import { resolve } from "./deps.ts";
+import { resolve, dirname } from "./deps.ts";
 
 import { DenoRead } from "./handlers/Read.ts";
 import { DenoError } from "./handlers/Error.ts";
+import { DenoFile } from "./utils/File.ts";
 
 const unstable = Deno.args.find((x) => x == "--unstable") != undefined;
 
@@ -10,10 +11,6 @@ export class DenoFs {
   decoder: TextDecoder;
   static resolve: (...paths: string[]) => string = resolve;
   unstable: boolean = unstable;
-  static thisDir(imp: any) {
-    if (!imp.url) throw new Error("Import needs to be passed as a parameter");
-    return imp.url.split("/").slice(0, -1).join("/").split("file://").join("");
-  }
   constructor(file: string, options?: { decoding: string }) {
     this.decoder = new TextDecoder(options?.decoding || "utf-8");
     try {
@@ -23,8 +20,11 @@ export class DenoFs {
     }
     return this;
   }
-  get read() {
+  get reader() {
     return new DenoRead(this);
+  }
+  read(options?: object, cb?: (err: Error | null, file: DenoFile) => void) {
+    return this.reader.read(options, cb);
   }
   decode(input: any) {
     return this.decoder.decode(input);
