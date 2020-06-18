@@ -1,4 +1,10 @@
 
+# 2020-06-18
+- [[5d5b747](https://github.com/dan-online/deno-fs/commit/5d5b7472c82d7fbaeaa386b0d98124e884161c0a)] - diff test file - ([Dan](Dan))
+
+- [[e244444](https://github.com/dan-online/deno-fs/commit/e24444437ef1d891d35236f9bc871117953a10d6)] - fix dirname and stuff - ([Dan](Dan))
+
+- [[ad01c71](https://github.com/dan-online/deno-fs/commit/ad01c712d2307883a72869fdd703be7899328a33)] - change file ending - ([Dan](Dan))
 
 - [[c560c9a](https://github.com/dan-online/deno-fs/commit/c560c9a70e95997b4c174d5206f3884be19e2c40)] - Merge branch 'master' of https://github.com/dan-online/deno-fs - ([Dan](Dan))
 
@@ -14,7 +20,7 @@
 
 - [[49f3c3d](https://github.com/dan-online/deno-fs/commit/49f3c3da16df28af2bd70250b80ba76bc4ff4751)] - tests and errors - ([Dan](Dan))
 
-
+# 2020-06-16
 - [[d817bc7](https://github.com/dan-online/deno-fs/commit/d817bc7c8120fc548f359d25eb9eb5c93f74a915)] - fix example - ([Dan](Dan))
 
 - [[b386a4d](https://github.com/dan-online/deno-fs/commit/b386a4d2e26a4a0455e2f8e17dbd981cfa80077a)] - fix exports - ([Dan](Dan))
