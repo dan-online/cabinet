@@ -18,15 +18,19 @@ export class DenoRead {
   constructor(fs: DenoFs) {
     this.filePath = fs.filePath;
     this.fs = fs;
+    return this;
   }
   sync(options?: {}) {
+    let read;
+    let file;
     try {
-      const read = Deno.readFileSync(this.filePath);
-      const file = this.fs.decode(read);
-      return new DenoFile(this.fs, this.filePath, file);
+      read = Deno.readFileSync(this.filePath);
+      file = this.fs.decode(read);
     } catch (err) {
-      return new DenoError(err, { msg: "reading " + this.filePath });
+      new DenoError(err, { msg: "reading " + this.filePath });
     }
+    if (!file) throw new Error();
+    return new DenoFile(this.fs, this.filePath, file);
   }
   callback(
     options: {} | ((err: Error | null, file: DenoFile) => void),
@@ -39,5 +43,17 @@ export class DenoRead {
         return cb(null, new DenoFile(this.fs, this.filePath, file));
       })
       .catch((err) => new DenoError(err, { msg: "reading " + this.filePath }));
+  }
+  promise(options: {}) {
+    return new Promise((res: (file: DenoFile) => void, rej) => {
+      Deno.readFile(this.filePath)
+        .then((read) => {
+          const file = this.fs.decode(read);
+          return res(new DenoFile(this.fs, this.filePath, file));
+        })
+        .catch((err) =>
+          rej(new DenoError(err, { msg: "reading " + this.filePath }))
+        );
+    });
   }
 }
