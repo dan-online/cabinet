@@ -6,8 +6,7 @@ const { resolve } = DenoFs;
 
 let file: DenoFs;
 
-let fileContents =
-  "±!@£$%^&*()_+§1234567890-=QWERTYUIOP{}qwertyuiop[]ASDFGHJKL:\"|asdfghjkl;'~ZXCVBNM<>?`zxcvbnm,./😂";
+let fileContents = "The quick brown fox jumps over the lazy dog";
 
 Deno.test("open file", () => {
   file = new DenoFs(resolve("./src/tests/test.txt"));
