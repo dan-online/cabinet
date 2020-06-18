@@ -8,7 +8,7 @@ import { DenoError } from "./Error.ts";
  * @constructor
  * @example
  * ```
- * const { read } = new DenoFs("./file.png");
+ * const { read } = new DenoFs("./file.txt");
  * read.sync()
  * ```
  */
@@ -34,7 +34,7 @@ export class DenoRead {
   }
   callback(
     options: {} | ((err: Error | null, file: DenoFile) => void),
-    cb: (err: Error | null, file: DenoFile) => void,
+    cb: (err: Error | null, file: DenoFile) => void
   ) {
     if (!cb) throw new Error("Callback not specified!");
     Deno.readFile(this.filePath)
