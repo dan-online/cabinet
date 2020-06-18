@@ -1,10 +1,6 @@
 import { DenoFs } from "../index.ts";
 import { resolve } from "../deps.ts";
 
-const mimes = Object.entries(
-  JSON.parse(Deno.readTextFileSync(resolve("./src/assets/mimes.json")))
-).map((x) => ({ mime: x[0], info: x[1] }));
-
 /**
  * @name DenoFile
  * @description Contains info and the data of a requested file
@@ -19,7 +15,6 @@ const mimes = Object.entries(
  * ```
  */
 export class DenoFile {
-  private mimes: { mime: string; info: any }[] = mimes;
   /**
    * Path of the file
    * @type string
@@ -33,9 +28,7 @@ export class DenoFile {
    */
   readonly data: string;
   private info: Deno.FileInfo;
-  fs: DenoFs;
   constructor(fs: DenoFs, filePath: string, data: string) {
-    this.fs = fs;
     this.path = filePath;
     this.data = data;
     this.info = Deno.statSync(this.path);
@@ -63,12 +56,18 @@ export class DenoFile {
    * Mime of the file
    */
   get mime() {
+    const mimes = Object.entries(
+      JSON.parse(Deno.readTextFileSync(resolve("./src/assets/mimes.json")))
+    ).map((x) => ({ mime: x[0], info: x[1] }));
     return (
-      this.mimes.find((x) =>
+      mimes.find((x: { mime: string; info: any }) =>
         x.info.extensions?.find((x: string) => x === this.ext)
       ) || {}
     );
   }
+  /**
+   * Extension of the file
+   */
   get ext() {
     return (
       this.path.split(".")[this.path.split(".").length - 1] || ""
