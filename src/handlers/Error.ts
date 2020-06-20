@@ -1,4 +1,7 @@
-export class DenoError {
+/**
+ * @name FsError
+ */
+export class FsError {
   action: { msg: string; file?: string };
   constructor(err: Error, action: { msg: string; file?: string }) {
     this.action = action;

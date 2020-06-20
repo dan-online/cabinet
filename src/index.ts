@@ -1,32 +1,48 @@
-import { resolve, dirname } from "./deps.ts";
+import { resolve } from "./deps.ts";
 
 import { DenoRead } from "./handlers/Read.ts";
-import { DenoError } from "./handlers/Error.ts";
-import { DenoFile } from "./utils/File.ts";
+import { FsError } from "./handlers/Error.ts";
+import { FsFile } from "./utils/File.ts";
 
 const unstable = Deno.args.find((x) => x == "--unstable") != undefined;
 
 export class DenoFs {
   filePath: string = "";
-  decoder: TextDecoder;
+  private unstable: boolean = unstable;
   static resolve: (...paths: string[]) => string = resolve;
-  unstable: boolean = unstable;
-  constructor(file: string, options?: { decoding: string }) {
-    this.decoder = new TextDecoder(options?.decoding || "utf-8");
+  constructor(file: string) {
     try {
       this.filePath = DenoFs.resolve(file);
     } catch (err) {
-      new DenoError(err, { msg: "resolving file", file });
+      new FsError(err, { msg: "resolving file", file });
     }
-    return this;
+    return;
   }
   get reader() {
     return new DenoRead(this);
   }
-  read(options?: object, cb?: (err: Error | null, file: DenoFile) => void) {
+  read(options?: object, cb?: (err: Error | null, file: FsFile) => void) {
     return this.reader.read(options, cb);
   }
-  decode(input: any) {
-    return this.decoder.decode(input);
+  decode(input: any, decoding: string = "utf-8") {
+    var decoder;
+    try {
+      decoder = new TextDecoder(decoding.toLowerCase().split("us-")[1]);
+    } catch (err) {
+      decoder = new TextDecoder("utf-8");
+    }
+    return { decoded: decoder.decode(input), raw: input };
+  }
+  toJSON() {
+    const read: FsFile = this.reader.sync();
+    return {
+      path: this.filePath,
+      file: {
+        data: read.data,
+        type: read.type,
+        size: read.size,
+        mime: read.mime,
+      },
+    };
   }
 }

@@ -1,6 +1,6 @@
 import { assertEquals } from "./test_deps.ts";
 import { DenoFs } from "../../mod.ts";
-import { DenoFile } from "../utils/File.ts";
+import { FsFile } from "../utils/File.ts";
 
 const { resolve } = DenoFs;
 
@@ -16,32 +16,33 @@ Deno.test("open file", () => {
 });
 Deno.test("sync read file", () => {
   const read = file.reader.sync();
-  assertEquals(read.data, fileContents);
+  assertEquals(read.contents, fileContents);
 });
 Deno.test("cb read file", async () => {
   await new Promise((res, rej) => {
-    file.reader.callback({}, (err: Error | null, file: DenoFile) => {
+    file.reader.callback({}, (err: Error | null, file: FsFile) => {
       if (err) rej(err);
-      assertEquals(file.data, fileContents);
+      assertEquals(file.contents, fileContents);
       res(file);
     });
   });
 });
+
 Deno.test("promise read file", async () => {
   const fileD = await file.reader.promise({});
-  assertEquals(fileD.data, fileContents);
+  assertEquals(fileD.contents, fileContents);
 });
 
 Deno.test("sync default read", async () => {
   const fileD = file.read();
-  assertEquals(fileD.data, fileContents);
+  assertEquals(fileD.contents, fileContents);
 });
 
 Deno.test("cb default read", async () => {
   await new Promise((res, rej) => {
-    file.read((err: Error | null, file: DenoFile) => {
+    file.read((err: Error | null, file: FsFile) => {
       if (err) rej(err);
-      assertEquals(file.data, fileContents);
+      assertEquals(file.contents, fileContents);
       res(file);
     });
   });
