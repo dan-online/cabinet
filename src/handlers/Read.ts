@@ -1,6 +1,6 @@
 import { DenoFs } from "../index.ts";
-import { DenoFile } from "../utils/File.ts";
-import { DenoError } from "./Error.ts";
+import { FsFile } from "../utils/File.ts";
+import { FsError } from "./Error.ts";
 
 /**
  * @class
@@ -23,11 +23,11 @@ export class DenoRead {
     return this;
   }
   read(
-    options: {} | ((err: Error | null, file: DenoFile) => void) = {},
-    callback?: (err: Error | null, file: DenoFile) => void
+    options: {} | ((err: Error | null, file: FsFile) => void) = {},
+    callback?: (err: Error | null, file: FsFile) => void,
   ) {
     if (!callback && typeof options == "function") {
-      const cb = (err: Error | null, file: DenoFile) => options(err, file);
+      const cb = (err: Error | null, file: FsFile) => options(err, file);
       return this.callback({}, cb);
     } else if (!callback) {
       return this.sync(options);
@@ -36,38 +36,34 @@ export class DenoRead {
   }
   sync(options?: {}) {
     let read;
-    let file;
     try {
       read = Deno.readFileSync(this.filePath);
-      file = this.fs.decode(read);
     } catch (err) {
-      new DenoError(err, { msg: "reading " + this.filePath });
+      new FsError(err, { msg: "reading " + this.filePath });
     }
-    if (!file) throw new Error();
-    return new DenoFile(this.fs, this.filePath, file);
+    if (!read) throw new Error("Something went wrong");
+    return new FsFile(this.fs, this.filePath, read);
   }
   callback(
-    options: {} | ((err: Error | null, file: DenoFile) => void),
-    cb: (err: Error | null, file: DenoFile) => void
+    options: {} | ((err: Error | null, file: FsFile) => void),
+    cb: (err: Error | null, file: FsFile) => void,
   ) {
     if (!cb) throw new Error("Callback not specified!");
     Deno.readFile(this.filePath)
       .then((read) => {
-        const file = this.fs.decode(read);
-        return cb(null, new DenoFile(this.fs, this.filePath, file));
+        return cb(null, new FsFile(this.fs, this.filePath, read));
       })
-      .catch((err) => new DenoError(err, { msg: "reading " + this.filePath }));
-    return new DenoFile(this.fs, this.filePath, ""); // type stuff, I hate doing this
+      .catch((err) => new FsError(err, { msg: "reading " + this.filePath }));
+    return new FsFile(this.fs, this.filePath, new Uint8Array()); // type stuff, I hate doing this
   }
   promise(options: {}) {
-    return new Promise((res: (file: DenoFile) => void, rej) => {
+    return new Promise((res: (file: FsFile) => void, rej) => {
       Deno.readFile(this.filePath)
         .then((read) => {
-          const file = this.fs.decode(read);
-          return res(new DenoFile(this.fs, this.filePath, file));
+          return res(new FsFile(this.fs, this.filePath, read));
         })
         .catch((err) =>
-          rej(new DenoError(err, { msg: "reading " + this.filePath }))
+          rej(new FsError(err, { msg: "reading " + this.filePath }))
         );
     });
   }

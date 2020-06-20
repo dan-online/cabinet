@@ -2,7 +2,7 @@ import { DenoFs } from "../index.ts";
 import { resolve } from "../deps.ts";
 
 /**
- * @name DenoFile
+ * @name FsFile
  * @description Contains info and the data of a requested file
  * @class
  * @constructor
@@ -11,10 +11,10 @@ import { resolve } from "../deps.ts";
  * @param data {string} - Raw data decoded using UTF-8
  * @example
  * ```
- * new DenoFile(DenoFs, resolve("./file.txt"), "12345")
+ * new FsFile(DenoFs, resolve("./file.txt"), "12345")
  * ```
  */
-export class DenoFile {
+export class FsFile {
   /**
    * Path of the file
    * @type string
@@ -26,9 +26,15 @@ export class DenoFile {
    * @type string
    * @readonly
    */
-  readonly data: string;
+  readonly data: Uint8Array;
   private info: Deno.FileInfo;
-  constructor(fs: DenoFs, filePath: string, data: string) {
+  fs: DenoFs;
+  constructor(
+    fs: DenoFs,
+    filePath: string,
+    data: Uint8Array,
+  ) {
+    this.fs = fs;
     this.path = filePath;
     this.data = data;
     this.info = Deno.statSync(this.path);
@@ -58,11 +64,12 @@ export class DenoFile {
   get mime() {
     const mimes = Object.entries(
       JSON.parse(Deno.readTextFileSync(resolve("./src/assets/mimes.json"))),
-    ).map((x) => ({ mime: x[0], info: x[1] }));
+    ).map((x) => ({ name: x[0], info: x[1] }));
     return (
-      mimes.find((x: { mime: string; info: any }) =>
-        x.info.extensions?.find((x: string) => x === this.ext)
-      ) || {}
+      mimes.find((
+        x: { name: string; info: any },
+      ) => x.info.extensions?.find((ext: string) => ext === this.ext)) ||
+      { name: "unknown", info: { charset: "utf-8" } }
     );
   }
   /**
@@ -72,5 +79,18 @@ export class DenoFile {
     return (
       this.path.split(".")[this.path.split(".").length - 1] || ""
     ).toLowerCase();
+  }
+  /**
+   * Encode to base64
+   */
+  toBase64() {
+    return btoa(String.fromCharCode.apply(null, Array.from(this.data)));
+  }
+  /**
+   * File contents
+   */
+  get contents() {
+    return "";
+    //return this.fs.decode(this.data, this.mime.info.charset);
   }
 }
