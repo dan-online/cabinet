@@ -5,4 +5,4 @@ const handler = new DenoFs(
 );
 
 const file = handler.reader.sync();
-console.log(file.mime);
+console.log(file.contents);

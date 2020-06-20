@@ -31,7 +31,7 @@ export class DenoFs {
     } catch (err) {
       decoder = new TextDecoder("utf-8");
     }
-    return { decoded: decoder.decode(input), raw: input };
+    return decoder.decode(input);
   }
   toJSON() {
     const read: FsFile = this.reader.sync();

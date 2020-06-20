@@ -62,13 +62,15 @@ export class FsFile {
    * Mime of the file
    */
   get mime() {
-    const mimes = Object.entries(
-      JSON.parse(Deno.readTextFileSync(resolve("./src/assets/mimes.json"))),
-    ).map((x) => ({ name: x[0], info: x[1] }));
+    const mimes = Object
+      .entries(
+        JSON.parse(Deno.readTextFileSync(resolve("./src/assets/mimes.json"))),
+      ).map((x) => ({ name: x[0], info: x[1] }));
+    const found: { name: string; info: any } | undefined = mimes.find((
+      x: { name: string; info: any },
+    ) => x.info.extensions?.find((ext: string) => ext === this.ext));
     return (
-      mimes.find((
-        x: { name: string; info: any },
-      ) => x.info.extensions?.find((ext: string) => ext === this.ext)) ||
+      found ||
       { name: "unknown", info: { charset: "utf-8" } }
     );
   }
@@ -90,7 +92,6 @@ export class FsFile {
    * File contents
    */
   get contents() {
-    return "";
-    //return this.fs.decode(this.data, this.mime.info.charset);
+    return this.fs.decode(this.data, this.mime.info.charset);
   }
 }
