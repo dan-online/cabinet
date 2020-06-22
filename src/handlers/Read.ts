@@ -4,7 +4,7 @@ import { FsError } from "./Error.ts";
 
 /**
  * @class
- * @name DenoRead
+ * @name FsRead
  * @description Contains functions for reading files
  * @constructor
  * @example
@@ -13,7 +13,7 @@ import { FsError } from "./Error.ts";
  * read.sync()
  * ```
  */
-export class DenoRead {
+export class FsRead {
   filePath: string;
   fs: DenoFs;
 
@@ -24,7 +24,7 @@ export class DenoRead {
   }
   read(
     options: {} | ((err: Error | null, file: FsFile) => void) = {},
-    callback?: (err: Error | null, file: FsFile) => void,
+    callback?: (err: Error | null, file: FsFile) => void
   ) {
     if (!callback && typeof options == "function") {
       const cb = (err: Error | null, file: FsFile) => options(err, file);
@@ -39,21 +39,30 @@ export class DenoRead {
     try {
       read = Deno.readFileSync(this.filePath);
     } catch (err) {
-      new FsError(err, { msg: "reading " + this.filePath });
+      new FsError(err, {
+        msg: "reading " + this.filePath,
+        perm: "read",
+      });
     }
     if (!read) throw new Error("Something went wrong");
     return new FsFile(this.fs, this.filePath, read);
   }
   callback(
     options: {} | ((err: Error | null, file: FsFile) => void),
-    cb: (err: Error | null, file: FsFile) => void,
+    cb: (err: Error | null, file: FsFile) => void
   ) {
     if (!cb) throw new Error("Callback not specified!");
     Deno.readFile(this.filePath)
       .then((read) => {
         return cb(null, new FsFile(this.fs, this.filePath, read));
       })
-      .catch((err) => new FsError(err, { msg: "reading " + this.filePath }));
+      .catch(
+        (err) =>
+          new FsError(err, {
+            msg: "reading " + this.filePath,
+            perm: "read",
+          })
+      );
     return new FsFile(this.fs, this.filePath, new Uint8Array()); // type stuff, I hate doing this
   }
   promise(options: {}) {
@@ -63,7 +72,12 @@ export class DenoRead {
           return res(new FsFile(this.fs, this.filePath, read));
         })
         .catch((err) =>
-          rej(new FsError(err, { msg: "reading " + this.filePath }))
+          rej(
+            new FsError(err, {
+              msg: "reading " + this.filePath,
+              perm: "read",
+            })
+          )
         );
     });
   }

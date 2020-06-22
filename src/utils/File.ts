@@ -27,17 +27,15 @@ export class FsFile {
    * @readonly
    */
   readonly data: Uint8Array;
-  private info: Deno.FileInfo;
   fs: DenoFs;
-  constructor(
-    fs: DenoFs,
-    filePath: string,
-    data: Uint8Array,
-  ) {
+  constructor(fs: DenoFs, filePath: string, data: Uint8Array) {
     this.fs = fs;
     this.path = filePath;
     this.data = data;
-    this.info = Deno.statSync(this.path);
+    return this;
+  }
+  private get info() {
+    return Deno.statSync(this.path);
   }
   /**
    * Type of the file
@@ -62,17 +60,15 @@ export class FsFile {
    * Mime of the file
    */
   get mime() {
-    const mimes = Object
-      .entries(
-        JSON.parse(Deno.readTextFileSync(resolve("./src/assets/mimes.json"))),
-      ).map((x) => ({ name: x[0], info: x[1] }));
-    const found: { name: string; info: any } | undefined = mimes.find((
-      x: { name: string; info: any },
-    ) => x.info.extensions?.find((ext: string) => ext === this.ext));
-    return (
-      found ||
-      { name: "unknown", info: { charset: "utf-8" } }
+    const mimes = Object.entries(
+      JSON.parse(Deno.readTextFileSync(resolve("./src/assets/mimes.json")))
+    ).map((x) => ({ name: x[0], info: x[1] }));
+    const found:
+      | { name: string; info: any }
+      | undefined = mimes.find((x: { name: string; info: any }) =>
+      x.info.extensions?.find((ext: string) => ext === this.ext)
     );
+    return found || { name: "unknown", info: { charset: "utf-8" } };
   }
   /**
    * Extension of the file

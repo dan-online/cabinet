@@ -1,25 +1,27 @@
 import { resolve } from "./deps.ts";
 
-import { DenoRead } from "./handlers/Read.ts";
+import { FsRead } from "./handlers/Read.ts";
 import { FsError } from "./handlers/Error.ts";
 import { FsFile } from "./utils/File.ts";
+import { FsWrite } from "./handlers/Write.ts";
 
-const unstable = Deno.args.find((x) => x == "--unstable") != undefined;
-
+export { FsError, FsFile, FsRead, FsWrite };
 export class DenoFs {
   filePath: string = "";
-  private unstable: boolean = unstable;
   static resolve: (...paths: string[]) => string = resolve;
   constructor(file: string) {
     try {
       this.filePath = DenoFs.resolve(file);
     } catch (err) {
-      new FsError(err, { msg: "resolving file", file });
+      new FsError(err, { msg: "resolving file", file, perm: "read" });
     }
     return;
   }
   get reader() {
-    return new DenoRead(this);
+    return new FsRead(this);
+  }
+  get writer() {
+    return new FsWrite(this);
   }
   read(options?: object, cb?: (err: Error | null, file: FsFile) => void) {
     return this.reader.read(options, cb);
@@ -32,6 +34,9 @@ export class DenoFs {
       decoder = new TextDecoder("utf-8");
     }
     return decoder.decode(input);
+  }
+  encode(input: string) {
+    return new TextEncoder().encode(input);
   }
   toJSON() {
     const read: FsFile = this.reader.sync();
