@@ -6,7 +6,10 @@
 
 A module created for [Deno](https://deno.land) by [DanCodes](https://dancodes.online)
 
-![.github/workflows/deno.yml](https://github.com/dan-online/cabinet/workflows/.github/workflows/deno.yml/badge.svg)
+![.github/workflows/deno-win.yml](https://github.com/dan-online/cabinet/workflows/.github/workflows/deno-win.yml/badge.svg)
+![.github/workflows/deno-linux.yml](https://github.com/dan-online/cabinet/workflows/.github/workflows/deno-linux.yml/badge.svg)
+![.github/workflows/deno-mac.yml](https://github.com/dan-online/cabinet/workflows/.github/workflows/deno-mac.yml/badge.svg)
+
 [![DanCodes Discord](https://img.shields.io/discord/478586684666150934?color=%237289DA&label=discord%20support&logo=discord&logoColor=%23fff)](https://discord.gg/fdpcZAA)
 ![GitHub repo size](https://img.shields.io/github/repo-size/dan-online/cabinet)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/dan-online/cabinet)
