@@ -48,7 +48,11 @@
 //     (new Date().getTime() - delTime) / 1000 +
 //     "s"
 // );
-import { Cabinet, CabinetFile, CabinetError } from "./mod.ts";
+import {
+  Cabinet,
+  CabinetFile,
+  CabinetError,
+} from "https://raw.githubusercontent.com/dan-online/cabinet/master/mod.ts"; // or ./mod.ts if cloned
 
 const file = new Cabinet("./testing.txt");
 
@@ -79,3 +83,5 @@ file.reader.promise().then((CabinetFile) => {
 file.reader.callback((err?: CabinetError, File?: CabinetFile) => {
   console.log("read " + File?.size.mb + "mb in callback");
 });
+
+file.delete();

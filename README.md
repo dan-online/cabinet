@@ -25,7 +25,7 @@ deno run --allow-write --allow-read https://raw.githubusercontent.com/dan-online
 deno test -A
 ```
 
-### myFile.ts
+### Use
 
 ```typescript
 import {
