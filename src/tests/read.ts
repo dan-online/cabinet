@@ -11,7 +11,7 @@ Deno.test("sync read file", () => {
 });
 Deno.test("cb read file", async () => {
   await new Promise((res, rej) => {
-    file.reader.callback((err?: Error | CabinetError, file?: CabinetFile) => {
+    file.reader.callback((err?: CabinetError, file?: CabinetFile) => {
       if (err) return rej(err);
       assertEquals(file?.contents, fileContents);
       res(file);

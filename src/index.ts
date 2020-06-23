@@ -7,7 +7,6 @@ import { CabinetWrite } from "./handlers/Write.ts";
 import { CabinetDelete } from "./handlers/Delete.ts";
 import { cbErrFile } from "./types/callback.ts";
 
-export { CabinetError, CabinetFile, CabinetRead, CabinetWrite };
 export class Cabinet {
   filePath: string = "";
   static resolve: (...paths: string[]) => string = resolve;
@@ -34,10 +33,7 @@ export class Cabinet {
   read(cb?: cbErrFile) {
     return this.reader.read(cb);
   }
-  write(
-    data: any,
-    cb?: (err?: CabinetError | Error, file?: CabinetFile) => void
-  ) {
+  write(data: any, cb?: cbErrFile) {
     return this.writer.write(data, cb);
   }
   decode(input: any, decoding: string = "utf-8") {
@@ -65,3 +61,5 @@ export class Cabinet {
     };
   }
 }
+
+export { CabinetWrite, CabinetRead, CabinetFile, CabinetError, CabinetDelete };
