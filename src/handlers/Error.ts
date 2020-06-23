@@ -1,7 +1,7 @@
 /**
- * @name FsError
+ * @name CabinetError
  */
-export class FsError {
+export class CabinetError {
   action: { msg: string; file?: string; perm?: string };
   constructor(
     err: Error,
