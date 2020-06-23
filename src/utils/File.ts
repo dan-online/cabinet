@@ -1,20 +1,20 @@
-import { DenoFs } from "../index.ts";
+import { Cabinet } from "../index.ts";
 import { resolve } from "../deps.ts";
 
 /**
- * @name FsFile
+ * @name CabinetFile
  * @description Contains info and the data of a requested file
  * @class
  * @constructor
- * @param fs {DenoFs} - Main Deno file handler
+ * @param fs {Cabinet} - Main Deno file handler
  * @param filePath {string} - Path of the file resolved
  * @param data {string} - Raw data decoded using UTF-8
  * @example
  * ```
- * new FsFile(DenoFs, resolve("./file.txt"), "12345")
+ * new CabinetFile(Cabinet, resolve("./file.txt"), "12345")
  * ```
  */
-export class FsFile {
+export class CabinetFile {
   /**
    * Path of the file
    * @type string
@@ -27,8 +27,8 @@ export class FsFile {
    * @readonly
    */
   readonly data: Uint8Array;
-  fs: DenoFs;
-  constructor(fs: DenoFs, filePath: string, data: Uint8Array) {
+  fs: Cabinet;
+  constructor(fs: Cabinet, filePath: string, data: Uint8Array) {
     this.fs = fs;
     this.path = filePath;
     this.data = data;
