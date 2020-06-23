@@ -1,5 +1,5 @@
 import { DenoFs, FsFile, FsError } from "../index.ts";
-
+import { cbErrFile } from "../types/callback.ts";
 export class FsDelete {
   filePath: string;
   fs: DenoFs;
@@ -8,7 +8,7 @@ export class FsDelete {
     this.fs = fs;
     return this;
   }
-  delete(callback?: (err?: Error | FsError, file?: FsFile) => void) {
+  delete(callback?: cbErrFile) {
     if (!callback) {
       return this.sync();
     }
@@ -25,7 +25,7 @@ export class FsDelete {
     }
     return true;
   }
-  callback(cb: (err?: Error | FsError, file?: FsFile) => void) {
+  callback(cb: cbErrFile) {
     if (!cb) throw new Error("Callback not specified!");
     Deno.remove(this.filePath)
       .then((read) => {
@@ -43,7 +43,7 @@ export class FsDelete {
   promise() {
     return new Promise((res: (file?: FsFile) => void, rej) => {
       Deno.remove(this.filePath)
-        .then((read) => {
+        .then(() => {
           return res();
         })
         .catch((err) =>

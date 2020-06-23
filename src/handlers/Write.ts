@@ -1,4 +1,5 @@
 import { DenoFs, FsFile, FsError } from "../index.ts";
+import { cbErrFile } from "../types/callback.ts";
 
 export class FsWrite {
   filePath: string;
@@ -27,14 +28,11 @@ export class FsWrite {
       }
     }
   }
-  write(
-    data: Uint8Array | string | object | any,
-    callback?: (err?: Error | FsError, file?: FsFile) => void
-  ) {
+  write(data: Uint8Array | string | object | any, callback?: cbErrFile) {
     if (!callback) {
       return this.sync(data);
     }
-    //return this.callback(data, callback);
+    return this.callback(data, callback);
   }
   sync(data: any) {
     let encoded;
@@ -50,38 +48,38 @@ export class FsWrite {
     if (!encoded) throw new Error("Something went wrong");
     return new FsFile(this.fs, this.filePath, encoded);
   }
-  // callback(
-  //   options: {} | ((err?: Error | FsError, file?: FsFile) => void),
-  //   cb: (err: Error | FsError, file?: FsFile) => void
-  // ) {
-  //   if (!cb) throw new Error("Callback not specified!");
-  //   Deno.readFile(this.filePath)
-  //     .then((read) => {
-  //       return cb(undefined, new FsFile(this.fs, this.filePath, read));
-  //     })
-  //     .catch((err) =>
-  //       cb(
-  //         new FsError(err, {
-  //           msg: "reading " + this.filePath,
-  //           perm: "read",
-  //         })
-  //       )
-  //     );
-  // }
-  // promise(options: {}) {
-  //   return new Promise((res: (file: FsFile) => void, rej) => {
-  //     Deno.readFile(this.filePath)
-  //       .then((read) => {
-  //         return res(new FsFile(this.fs, this.filePath, read));
-  //       })
-  //       .catch((err) =>
-  //         rej(
-  //           new FsError(err, {
-  //             msg: "reading " + this.filePath,
-  //             perm: "read",
-  //           })
-  //         )
-  //       );
-  //   });
-  // }
+  callback(data: any, cb: cbErrFile) {
+    const encoded = this.encode(data);
+    if (!cb) throw new Error("Callback not specified!");
+    Deno.writeFile(this.filePath, encoded)
+      .then(() => {
+        return cb(undefined, new FsFile(this.fs, this.filePath, encoded));
+      })
+      .catch((err) =>
+        cb(
+          new FsError(err, {
+            msg: "reading " + this.filePath,
+            perm: "read",
+          })
+        )
+      );
+    return new FsFile(this.fs, this.filePath, encoded);
+  }
+  promise(data: any) {
+    return new Promise((res: (file: FsFile) => void, rej) => {
+      const encoded = this.encode(data);
+      Deno.writeFile(this.filePath, encoded)
+        .then(() => {
+          return res(new FsFile(this.fs, this.filePath, encoded));
+        })
+        .catch((err) =>
+          rej(
+            new FsError(err, {
+              msg: "reading " + this.filePath,
+              perm: "read",
+            })
+          )
+        );
+    });
+  }
 }

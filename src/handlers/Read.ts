@@ -1,7 +1,7 @@
 import { DenoFs } from "../index.ts";
 import { FsFile } from "../utils/File.ts";
 import { FsError } from "./Error.ts";
-
+import { cbErrFile } from "../types/callback.ts";
 /**
  * @class
  * @name FsRead
@@ -22,7 +22,7 @@ export class FsRead {
     this.fs = fs;
     return this;
   }
-  read(callback?: (err?: Error | FsError, file?: FsFile) => void) {
+  read(callback?: cbErrFile) {
     if (!callback) {
       return this.sync();
     }
@@ -41,7 +41,7 @@ export class FsRead {
     if (!read) throw new Error("Something went wrong");
     return new FsFile(this.fs, this.filePath, read);
   }
-  callback(cb: (err?: Error | FsError, file?: FsFile) => void) {
+  callback(cb: cbErrFile) {
     if (!cb) throw new Error("Callback not specified!");
     Deno.readFile(this.filePath)
       .then((read) => {
@@ -56,7 +56,7 @@ export class FsRead {
       );
     return new FsFile(this.fs, this.filePath, new Uint8Array());
   }
-  promise(options: {}) {
+  promise() {
     return new Promise((res: (file: FsFile) => void, rej) => {
       Deno.readFile(this.filePath)
         .then((read) => {

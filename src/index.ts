@@ -5,6 +5,7 @@ import { FsError } from "./handlers/Error.ts";
 import { FsFile } from "./utils/File.ts";
 import { FsWrite } from "./handlers/Write.ts";
 import { FsDelete } from "./handlers/Delete.ts";
+import { cbErrFile } from "./types/callback.ts";
 
 export { FsError, FsFile, FsRead, FsWrite };
 export class DenoFs {
@@ -27,10 +28,10 @@ export class DenoFs {
   get deleter() {
     return new FsDelete(this);
   }
-  delete(cb?: (err?: Error | FsError, file?: FsFile) => void) {
+  delete(cb?: cbErrFile) {
     return this.deleter.delete(cb);
   }
-  read(cb?: (err?: Error | FsError, file?: FsFile) => void) {
+  read(cb?: cbErrFile) {
     return this.reader.read(cb);
   }
   write(data: any, cb?: (err?: FsError | Error, file?: FsFile) => void) {
