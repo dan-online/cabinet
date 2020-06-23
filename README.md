@@ -16,7 +16,7 @@ A module created for [Deno](https://deno.land) by [DanCodes](https://dancodes.on
 ### Demo
 
 ```bash
-deno run --allow-write --allow-read https://raw.githubusercontent.com/dan-online/cabinet/master/demo.ts
+deno run --allow-write --allow-read https://raw.githubusercontent.com/dan-online/cabinet/v1.0.0/demo.ts
 ```
 
 ### Testing
