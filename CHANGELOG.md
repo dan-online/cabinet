@@ -1,5 +1,7 @@
 
 
+- [[43b43b5](https://github.com/dan-online/cabinet/commit/43b43b507f3763fcc96a064ec119e04f11f1c963)] - move how exports work - ([Dan](Dan))
+
 - [[beb19ea](https://github.com/dan-online/cabinet/commit/beb19eaa4b358547673c097fc0f89a3776c8ace2)] - df - ([Dan](Dan))
 
 - [[5663b59](https://github.com/dan-online/cabinet/commit/5663b59f56803d6fb7f789eb518c245a346d477e)] - release url - ([Dan](Dan))
