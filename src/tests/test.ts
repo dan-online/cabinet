@@ -48,3 +48,17 @@ Deno.test("cb default read", async () => {
     });
   });
 });
+
+Deno.test("cb default delete", async () => {
+  const delFile = new DenoFs(resolve("./src/tests/del.txt"));
+  const val = Math.random();
+  delFile.write(val);
+  delFile.delete();
+  let c;
+  try {
+    c = delFile.read();
+  } catch {}
+  if (c) {
+    throw new Error("File found: " + c?.contents);
+  }
+});
