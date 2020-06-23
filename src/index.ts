@@ -1,32 +1,32 @@
 import { resolve } from "./deps.ts";
 
-import { FsRead } from "./handlers/Read.ts";
-import { FsError } from "./handlers/Error.ts";
-import { FsFile } from "./utils/File.ts";
-import { FsWrite } from "./handlers/Write.ts";
-import { FsDelete } from "./handlers/Delete.ts";
+import { CabinetRead } from "./handlers/Read.ts";
+import { CabinetError } from "./handlers/Error.ts";
+import { CabinetFile } from "./utils/File.ts";
+import { CabinetWrite } from "./handlers/Write.ts";
+import { CabinetDelete } from "./handlers/Delete.ts";
 import { cbErrFile } from "./types/callback.ts";
 
-export { FsError, FsFile, FsRead, FsWrite };
-export class DenoFs {
+export { CabinetError, CabinetFile, CabinetRead, CabinetWrite };
+export class Cabinet {
   filePath: string = "";
   static resolve: (...paths: string[]) => string = resolve;
   constructor(file: string) {
     try {
-      this.filePath = DenoFs.resolve(file);
+      this.filePath = Cabinet.resolve(file);
     } catch (err) {
-      new FsError(err, { msg: "resolving file", file, perm: "read" });
+      new CabinetError(err, { msg: "resolving file", file, perm: "read" });
     }
     return;
   }
   get reader() {
-    return new FsRead(this);
+    return new CabinetRead(this);
   }
   get writer() {
-    return new FsWrite(this);
+    return new CabinetWrite(this);
   }
   get deleter() {
-    return new FsDelete(this);
+    return new CabinetDelete(this);
   }
   delete(cb?: cbErrFile) {
     return this.deleter.delete(cb);
@@ -34,7 +34,10 @@ export class DenoFs {
   read(cb?: cbErrFile) {
     return this.reader.read(cb);
   }
-  write(data: any, cb?: (err?: FsError | Error, file?: FsFile) => void) {
+  write(
+    data: any,
+    cb?: (err?: CabinetError | Error, file?: CabinetFile) => void
+  ) {
     return this.writer.write(data, cb);
   }
   decode(input: any, decoding: string = "utf-8") {
@@ -50,7 +53,7 @@ export class DenoFs {
     return new TextEncoder().encode(input);
   }
   toJSON() {
-    const read: FsFile = this.reader.sync();
+    const read: CabinetFile = this.reader.sync();
     return {
       path: this.filePath,
       file: {
