@@ -22,19 +22,13 @@ export class FsRead {
     this.fs = fs;
     return this;
   }
-  read(
-    options: {} | ((err: Error | null, file: FsFile) => void) = {},
-    callback?: (err: Error | null, file: FsFile) => void
-  ) {
-    if (!callback && typeof options == "function") {
-      const cb = (err: Error | null, file: FsFile) => options(err, file);
-      return this.callback({}, cb);
-    } else if (!callback) {
-      return this.sync(options);
+  read(callback?: (err?: Error | FsError, file?: FsFile) => void) {
+    if (!callback) {
+      return this.sync();
     }
-    return this.callback(options, callback);
+    return this.callback(callback);
   }
-  sync(options?: {}) {
+  sync() {
     let read;
     try {
       read = Deno.readFileSync(this.filePath);
@@ -47,14 +41,11 @@ export class FsRead {
     if (!read) throw new Error("Something went wrong");
     return new FsFile(this.fs, this.filePath, read);
   }
-  callback(
-    options: {} | ((err: Error | null, file: FsFile) => void),
-    cb: (err: Error | null, file: FsFile) => void
-  ) {
+  callback(cb: (err?: Error | FsError, file?: FsFile) => void) {
     if (!cb) throw new Error("Callback not specified!");
     Deno.readFile(this.filePath)
       .then((read) => {
-        return cb(null, new FsFile(this.fs, this.filePath, read));
+        return cb(undefined, new FsFile(this.fs, this.filePath, read));
       })
       .catch(
         (err) =>
@@ -63,7 +54,7 @@ export class FsRead {
             perm: "read",
           })
       );
-    return new FsFile(this.fs, this.filePath, new Uint8Array()); // type stuff, I hate doing this
+    return new FsFile(this.fs, this.filePath, new Uint8Array());
   }
   promise(options: {}) {
     return new Promise((res: (file: FsFile) => void, rej) => {

@@ -4,6 +4,7 @@ import { FsRead } from "./handlers/Read.ts";
 import { FsError } from "./handlers/Error.ts";
 import { FsFile } from "./utils/File.ts";
 import { FsWrite } from "./handlers/Write.ts";
+import { FsDelete } from "./handlers/Delete.ts";
 
 export { FsError, FsFile, FsRead, FsWrite };
 export class DenoFs {
@@ -23,8 +24,17 @@ export class DenoFs {
   get writer() {
     return new FsWrite(this);
   }
-  read(options?: object, cb?: (err: Error | null, file: FsFile) => void) {
-    return this.reader.read(options, cb);
+  get deleter() {
+    return new FsDelete(this);
+  }
+  delete(cb?: (err?: Error | FsError, file?: FsFile) => void) {
+    return this.deleter.delete(cb);
+  }
+  read(cb?: (err?: Error | FsError, file?: FsFile) => void) {
+    return this.reader.read(cb);
+  }
+  write(data: any, cb?: (err?: FsError | Error, file?: FsFile) => void) {
+    return this.writer.write(data, cb);
   }
   decode(input: any, decoding: string = "utf-8") {
     var decoder;

@@ -1,6 +1,7 @@
 import { assertEquals } from "./test_deps.ts";
 import { DenoFs } from "../../mod.ts";
 import { FsFile } from "../utils/File.ts";
+import { FsError } from "../handlers/Error.ts";
 
 const { resolve } = DenoFs;
 
@@ -20,9 +21,9 @@ Deno.test("sync read file", () => {
 });
 Deno.test("cb read file", async () => {
   await new Promise((res, rej) => {
-    file.reader.callback({}, (err: Error | null, file: FsFile) => {
+    file.reader.callback((err?: Error | FsError, file?: FsFile) => {
       if (err) rej(err);
-      assertEquals(file.contents, fileContents);
+      assertEquals(file?.contents, fileContents);
       res(file);
     });
   });
@@ -40,9 +41,9 @@ Deno.test("sync default read", async () => {
 
 Deno.test("cb default read", async () => {
   await new Promise((res, rej) => {
-    file.read((err: Error | null, file: FsFile) => {
-      if (err) rej(err);
-      assertEquals(file.contents, fileContents);
+    file.read((err?: Error | FsError, file?: FsFile) => {
+      if (err) rej(err || new Error("File didn't return"));
+      assertEquals(file?.contents, fileContents);
       res(file);
     });
   });

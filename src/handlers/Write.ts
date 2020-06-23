@@ -29,12 +29,12 @@ export class FsWrite {
   }
   write(
     data: Uint8Array | string | object | any,
-    callback?: (err?: Error | FsError | null, file?: FsFile) => void
+    callback?: (err?: Error | FsError, file?: FsFile) => void
   ) {
     if (!callback) {
       return this.sync(data);
     }
-    return this.callback(data, callback);
+    //return this.callback(data, callback);
   }
   sync(data: any) {
     let encoded;
@@ -50,39 +50,38 @@ export class FsWrite {
     if (!encoded) throw new Error("Something went wrong");
     return new FsFile(this.fs, this.filePath, encoded);
   }
-  callback(
-    options: {} | ((err: Error | FsError | null, file?: FsFile) => void),
-    cb: (err: Error | FsError | null, file?: FsFile) => void
-  ) {
-    if (!cb) throw new Error("Callback not specified!");
-    Deno.readFile(this.filePath)
-      .then((read) => {
-        return cb(null, new FsFile(this.fs, this.filePath, read));
-      })
-      .catch((err) =>
-        cb(
-          new FsError(err, {
-            msg: "reading " + this.filePath,
-            perm: "read",
-          })
-        )
-      );
-    return new FsFile(this.fs, this.filePath, new Uint8Array()); // type stuff, I hate doing this
-  }
-  promise(options: {}) {
-    return new Promise((res: (file: FsFile) => void, rej) => {
-      Deno.readFile(this.filePath)
-        .then((read) => {
-          return res(new FsFile(this.fs, this.filePath, read));
-        })
-        .catch((err) =>
-          rej(
-            new FsError(err, {
-              msg: "reading " + this.filePath,
-              perm: "read",
-            })
-          )
-        );
-    });
-  }
+  // callback(
+  //   options: {} | ((err?: Error | FsError, file?: FsFile) => void),
+  //   cb: (err: Error | FsError, file?: FsFile) => void
+  // ) {
+  //   if (!cb) throw new Error("Callback not specified!");
+  //   Deno.readFile(this.filePath)
+  //     .then((read) => {
+  //       return cb(undefined, new FsFile(this.fs, this.filePath, read));
+  //     })
+  //     .catch((err) =>
+  //       cb(
+  //         new FsError(err, {
+  //           msg: "reading " + this.filePath,
+  //           perm: "read",
+  //         })
+  //       )
+  //     );
+  // }
+  // promise(options: {}) {
+  //   return new Promise((res: (file: FsFile) => void, rej) => {
+  //     Deno.readFile(this.filePath)
+  //       .then((read) => {
+  //         return res(new FsFile(this.fs, this.filePath, read));
+  //       })
+  //       .catch((err) =>
+  //         rej(
+  //           new FsError(err, {
+  //             msg: "reading " + this.filePath,
+  //             perm: "read",
+  //           })
+  //         )
+  //       );
+  //   });
+  // }
 }
