@@ -1,6 +1,6 @@
-import { DenoFs } from "./mod.ts";
+import { Cabinet } from "./mod.ts";
 
-const handler = new DenoFs("./tests.txt");
+const handler = new Cabinet("./tests.txt");
 
 let arr = "";
 let x = 0;
