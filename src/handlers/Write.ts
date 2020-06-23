@@ -1,5 +1,16 @@
 import { Cabinet, CabinetFile, CabinetError } from "../../mod.ts";
 import { cbErrFile } from "../types/callback.ts";
+/**
+ * @class
+ * @name CabinetWrite
+ * @description Contains functions for writing files
+ * @constructor
+ * @example
+ * ```
+ * const { writer } = new Cabinet("./file.txt");
+ * writer.sync("Hello!")
+ * ```
+ */
 
 export class CabinetWrite {
   filePath: string;

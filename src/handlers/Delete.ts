@@ -1,5 +1,17 @@
 import { Cabinet, CabinetFile, CabinetError } from "../../mod.ts";
 import { cbErrFile } from "../types/callback.ts";
+/**
+ * @class
+ * @name CabinetDelete
+ * @description Contains functions for deleting files
+ * @constructor
+ * @example
+ * ```
+ * const { deleter } = new Cabinet("./file.txt");
+ * deleter.sync()
+ * ```
+ */
+
 export class CabinetDelete {
   filePath: string;
   fs: Cabinet;

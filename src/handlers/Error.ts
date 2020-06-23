@@ -1,6 +1,10 @@
 /**
+ * @class
  * @name CabinetError
+ * @description An error thrown by Cabinet
+ * @constructor
  */
+
 export class CabinetError {
   action: { msg: string; file?: string; perm?: string };
   constructor(

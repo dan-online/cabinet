@@ -10,7 +10,7 @@ import { cbErrFile } from "../types/callback.ts";
  * @example
  * ```
  * const { reader } = new Cabinet("./file.txt");
- * read.sync()
+ * reader.sync()
  * ```
  */
 export class CabinetRead {
