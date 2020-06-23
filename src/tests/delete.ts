@@ -1,5 +1,5 @@
-import { DenoFs } from "../../mod.ts";
-const delFile = new DenoFs(DenoFs.resolve("./src/tests/files/testDel.txt"));
+import { Cabinet } from "../../mod.ts";
+const delFile = new Cabinet(Cabinet.resolve("./src/tests/files/testDel.txt"));
 
 const val = Math.random();
 
