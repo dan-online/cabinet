@@ -1,7 +1,7 @@
 import { assertEquals } from "./test_deps.ts";
-import { DenoFs, FsFile, FsError } from "../../mod.ts";
+import { Cabinet, CabinetFile, CabinetError } from "../../mod.ts";
 
-const file = new DenoFs(DenoFs.resolve("./src/tests/files/testWrite.txt"));
+const file = new Cabinet(Cabinet.resolve("./src/tests/files/testWrite.txt"));
 
 Deno.test("sync write file", () => {
   const write = file.writer.sync("hiya");
@@ -10,11 +10,14 @@ Deno.test("sync write file", () => {
 
 Deno.test("cb write file", async () => {
   await new Promise((res, rej) => {
-    file.writer.callback("hiya", (err?: Error | FsError, fsfile?: FsFile) => {
-      if (err) return rej(err);
-      assertEquals(fsfile?.contents, file.reader.sync().contents);
-      res(fsfile);
-    });
+    file.writer.callback(
+      "hiya",
+      (err?: Error | CabinetError, fsfile?: CabinetFile) => {
+        if (err) return rej(err);
+        assertEquals(fsfile?.contents, file.reader.sync().contents);
+        res(fsfile);
+      }
+    );
   });
 });
 
@@ -30,7 +33,7 @@ Deno.test("sync default write", async () => {
 
 Deno.test("cb default write", async () => {
   await new Promise((res, rej) => {
-    file.write("UwU", (err?: Error | FsError, fsfile?: FsFile) => {
+    file.write("UwU", (err?: Error | CabinetError, fsfile?: CabinetFile) => {
       if (err || !fsfile) return rej(err || new Error("File didn't return"));
       assertEquals(fsfile?.contents, file.reader.sync().contents);
       res(file);
