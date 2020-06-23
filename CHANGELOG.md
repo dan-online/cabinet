@@ -1,15 +1,41 @@
 
-# 2020-06-23
+
+- [[de3aa06](https://github.com/dan-online/deno-fs/commit/de3aa060cdb0c96accb403da8d05ec3252cef96c)] - rebrand in src/utils/File.ts - ([Dan](Dan))
+
+- [[2a4260f](https://github.com/dan-online/deno-fs/commit/2a4260fcebe9d5c5f6851ba6f85867731434ce02)] - rebrand in src/types/callback.ts - ([Dan](Dan))
+
+- [[7e40dd3](https://github.com/dan-online/deno-fs/commit/7e40dd387af3076206e8b55fd3ba28b99730ac0b)] - rebrand in src/tests/write.ts - ([Dan](Dan))
+
+- [[0a2e23b](https://github.com/dan-online/deno-fs/commit/0a2e23b5330809856fef66c285c490bf4c2895c9)] - rebrand in src/tests/test.ts - ([Dan](Dan))
+
+- [[7d4b908](https://github.com/dan-online/deno-fs/commit/7d4b908d7c34ab012072bd7fb75678f295828a8e)] - rebrand in src/tests/read.ts - ([Dan](Dan))
+
+- [[b6757b4](https://github.com/dan-online/deno-fs/commit/b6757b4658e1a3adbb88734e83eeeda60919723b)] - rebrand in src/tests/delete.ts - ([Dan](Dan))
+
+- [[92041e7](https://github.com/dan-online/deno-fs/commit/92041e7273c2410d2862c3b3fc1588056b731914)] - rebrand in src/index.ts - ([Dan](Dan))
+
+- [[ebd6558](https://github.com/dan-online/deno-fs/commit/ebd655876453a61ef2d3680fe23ddfc7559e4b4d)] - rebrand in src/handlers/Write.ts - ([Dan](Dan))
+
+- [[a8ef0fb](https://github.com/dan-online/deno-fs/commit/a8ef0fb023eafab013d9feb3bc661c62c40b58d3)] - rebrand in src/handlers/Read.ts - ([Dan](Dan))
+
+- [[d231a66](https://github.com/dan-online/deno-fs/commit/d231a6603650df12df845c8f12f6e51e0c2031fc)] - rebrand in src/handlers/Error.ts - ([Dan](Dan))
+
+- [[8299d5f](https://github.com/dan-online/deno-fs/commit/8299d5f5f7b674a197f1829210027fc6a74b5587)] - rebrand in src/handlers/Delete.ts - ([Dan](Dan))
+
+- [[d91cf16](https://github.com/dan-online/deno-fs/commit/d91cf16df8050f8cb61b054205bb55fb1bcd0327)] - rebrand in run.ts - ([Dan](Dan))
+
+- [[542b3c0](https://github.com/dan-online/deno-fs/commit/542b3c08b3062f3a0ed1cdbc90aef11e62a6c23a)] - rebrand in README.md - ([Dan](Dan))
+
 - [[c6f489a](https://github.com/dan-online/deno-fs/commit/c6f489a835700ed9d5ad42bf0b68debd5bc60d48)] - tests - ([Dan](Dan))
 
 - [[ad2f9ce](https://github.com/dan-online/deno-fs/commit/ad2f9ce47825b4c1444c325184571ef6ad498f20)] - del test - ([Dan](Dan))
 
 - [[3f5a553](https://github.com/dan-online/deno-fs/commit/3f5a5536b0652c12bfa5c52d57ea888809ab606d)] - fix - ([Dan](Dan))
 
-# 2020-06-22
+
 - [[24c0ba2](https://github.com/dan-online/deno-fs/commit/24c0ba20e2a0ee9bddb2fed4ea8f713ec2d1a373)] - writing and more - ([Dan](Dan))
 
-# 2020-06-20
+
 - [[3435c4e](https://github.com/dan-online/deno-fs/commit/3435c4e1eb11de7bde82581c9d81ae45055bed2a)] - auto charset chooser - ([DanCodes](DanCodes))
 
 - [[8d8ee3e](https://github.com/dan-online/deno-fs/commit/8d8ee3ef419b8279e06f1a98688ad437767a776c)] - Merge branch 'master' of https://github.com/dan-online/deno-fs - ([DanCodes](DanCodes))
@@ -24,7 +50,7 @@
 
 - [[8c5de95](https://github.com/dan-online/deno-fs/commit/8c5de95f5d1d63442b4d15e3cc89a6ab681d53c3)] - lots o changes - ([DanCodes](DanCodes))
 
-# 2020-06-18
+
 - [[6c447b9](https://github.com/dan-online/deno-fs/commit/6c447b949aee6a416c64d217579b09ccef3d552b)] - diff test file - ([Dan](Dan))
 
 - [[a9cd35e](https://github.com/dan-online/deno-fs/commit/a9cd35e3c0ada9d77d6984dd7906eaffc3cd147d)] - fix dirname and stuff - ([Dan](Dan))
@@ -45,7 +71,7 @@
 
 - [[2242490](https://github.com/dan-online/deno-fs/commit/224249070ea5c07170d99ab93247c8963933c058)] - tests and errors - ([Dan](Dan))
 
-# 2020-06-16
+
 - [[92fb5a1](https://github.com/dan-online/deno-fs/commit/92fb5a11e332a0b22d85314458ec59d0f1aaced7)] - fix example - ([Dan](Dan))
 
 - [[440cb74](https://github.com/dan-online/deno-fs/commit/440cb7467999e59abcd2c8f9787ad331d1ad584e)] - fix exports - ([Dan](Dan))
