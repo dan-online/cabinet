@@ -1,10 +1,10 @@
-import { DenoFs, FsFile, FsError } from "../index.ts";
+import { Cabinet, CabinetFile, CabinetError } from "../index.ts";
 import { cbErrFile } from "../types/callback.ts";
 
-export class FsWrite {
+export class CabinetWrite {
   filePath: string;
-  fs: DenoFs;
-  constructor(fs: DenoFs) {
+  fs: Cabinet;
+  constructor(fs: Cabinet) {
     this.filePath = fs.filePath;
     this.fs = fs;
     return this;
@@ -40,41 +40,41 @@ export class FsWrite {
       encoded = this.encode(data);
       Deno.writeFileSync(this.filePath, encoded);
     } catch (err) {
-      new FsError(err, {
+      new CabinetError(err, {
         msg: "writing " + this.filePath,
         perm: "write",
       });
     }
     if (!encoded) throw new Error("Something went wrong");
-    return new FsFile(this.fs, this.filePath, encoded);
+    return new CabinetFile(this.fs, this.filePath, encoded);
   }
   callback(data: any, cb: cbErrFile) {
     const encoded = this.encode(data);
     if (!cb) throw new Error("Callback not specified!");
     Deno.writeFile(this.filePath, encoded)
       .then(() => {
-        return cb(undefined, new FsFile(this.fs, this.filePath, encoded));
+        return cb(undefined, new CabinetFile(this.fs, this.filePath, encoded));
       })
       .catch((err) =>
         cb(
-          new FsError(err, {
+          new CabinetError(err, {
             msg: "reading " + this.filePath,
             perm: "read",
           })
         )
       );
-    return new FsFile(this.fs, this.filePath, encoded);
+    return new CabinetFile(this.fs, this.filePath, encoded);
   }
   promise(data: any) {
-    return new Promise((res: (file: FsFile) => void, rej) => {
+    return new Promise((res: (file: CabinetFile) => void, rej) => {
       const encoded = this.encode(data);
       Deno.writeFile(this.filePath, encoded)
         .then(() => {
-          return res(new FsFile(this.fs, this.filePath, encoded));
+          return res(new CabinetFile(this.fs, this.filePath, encoded));
         })
         .catch((err) =>
           rej(
-            new FsError(err, {
+            new CabinetError(err, {
               msg: "reading " + this.filePath,
               perm: "read",
             })
