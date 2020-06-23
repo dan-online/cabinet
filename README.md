@@ -32,7 +32,7 @@ import {
   Cabinet,
   CabinetFile,
   CabinetError,
-} from "https://raw.githubusercontent.com/dan-online/cabinet/master/mod.ts"; // or ./mod.ts if cloned
+} from "https://raw.githubusercontent.com/dan-online/cabinet/v1.0.0/mod.ts"; // or ./mod.ts if cloned
 
 const file = new Cabinet("./testing.txt");
 
