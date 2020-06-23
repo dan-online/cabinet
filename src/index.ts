@@ -61,5 +61,3 @@ export class Cabinet {
     };
   }
 }
-
-export { CabinetWrite, CabinetRead, CabinetFile, CabinetError, CabinetDelete };

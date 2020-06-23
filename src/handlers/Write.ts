@@ -1,4 +1,4 @@
-import { Cabinet, CabinetFile, CabinetError } from "../index.ts";
+import { Cabinet, CabinetFile, CabinetError } from "../../mod.ts";
 import { cbErrFile } from "../types/callback.ts";
 
 export class CabinetWrite {
