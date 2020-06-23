@@ -1,13 +1,13 @@
-import { DenoFs } from "../../mod.ts";
+import { Cabinet } from "../../mod.ts";
 
-const { resolve } = DenoFs;
+const { resolve } = Cabinet;
 
-let file: DenoFs;
+let file: Cabinet;
 
 Deno.test("open file", () => {
-  file = new DenoFs(resolve("./src/tests/test.txt"));
-  if (!(file instanceof DenoFs)) {
-    throw new Error("not an instance of DenoFs");
+  file = new Cabinet(resolve("./src/tests/test.txt"));
+  if (!(file instanceof Cabinet)) {
+    throw new Error("not an instance of Cabinet");
   }
 });
 
