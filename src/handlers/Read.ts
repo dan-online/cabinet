@@ -1,23 +1,23 @@
-import { DenoFs } from "../index.ts";
-import { FsFile } from "../utils/File.ts";
-import { FsError } from "./Error.ts";
+import { Cabinet } from "../index.ts";
+import { CabinetFile } from "../utils/File.ts";
+import { CabinetError } from "./Error.ts";
 import { cbErrFile } from "../types/callback.ts";
 /**
  * @class
- * @name FsRead
+ * @name CabinetRead
  * @description Contains functions for reading files
  * @constructor
  * @example
  * ```
- * const { reader } = new DenoFs("./file.txt");
+ * const { reader } = new Cabinet("./file.txt");
  * read.sync()
  * ```
  */
-export class FsRead {
+export class CabinetRead {
   filePath: string;
-  fs: DenoFs;
+  fs: Cabinet;
 
-  constructor(fs: DenoFs) {
+  constructor(fs: Cabinet) {
     this.filePath = fs.filePath;
     this.fs = fs;
     return this;
@@ -33,38 +33,38 @@ export class FsRead {
     try {
       read = Deno.readFileSync(this.filePath);
     } catch (err) {
-      new FsError(err, {
+      new CabinetError(err, {
         msg: "reading " + this.filePath,
         perm: "read",
       });
     }
     if (!read) throw new Error("Something went wrong");
-    return new FsFile(this.fs, this.filePath, read);
+    return new CabinetFile(this.fs, this.filePath, read);
   }
   callback(cb: cbErrFile) {
     if (!cb) throw new Error("Callback not specified!");
     Deno.readFile(this.filePath)
       .then((read) => {
-        return cb(undefined, new FsFile(this.fs, this.filePath, read));
+        return cb(undefined, new CabinetFile(this.fs, this.filePath, read));
       })
       .catch(
         (err) =>
-          new FsError(err, {
+          new CabinetError(err, {
             msg: "reading " + this.filePath,
             perm: "read",
           })
       );
-    return new FsFile(this.fs, this.filePath, new Uint8Array());
+    return new CabinetFile(this.fs, this.filePath, new Uint8Array());
   }
   promise() {
-    return new Promise((res: (file: FsFile) => void, rej) => {
+    return new Promise((res: (file: CabinetFile) => void, rej) => {
       Deno.readFile(this.filePath)
         .then((read) => {
-          return res(new FsFile(this.fs, this.filePath, read));
+          return res(new CabinetFile(this.fs, this.filePath, read));
         })
         .catch((err) =>
           rej(
-            new FsError(err, {
+            new CabinetError(err, {
               msg: "reading " + this.filePath,
               perm: "read",
             })
