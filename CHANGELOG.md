@@ -1,4 +1,9 @@
 
+# 2020-06-23
+- [[ad2f9ce](https://github.com/dan-online/deno-fs/commit/ad2f9ce47825b4c1444c325184571ef6ad498f20)] - del test - ([Dan](Dan))
+
+- [[3f5a553](https://github.com/dan-online/deno-fs/commit/3f5a5536b0652c12bfa5c52d57ea888809ab606d)] - fix - ([Dan](Dan))
+
 # 2020-06-22
 - [[24c0ba2](https://github.com/dan-online/deno-fs/commit/24c0ba20e2a0ee9bddb2fed4ea8f713ec2d1a373)] - writing and more - ([Dan](Dan))
 
