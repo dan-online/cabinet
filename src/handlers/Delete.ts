@@ -1,9 +1,9 @@
-import { DenoFs, FsFile, FsError } from "../index.ts";
+import { Cabinet, CabinetFile, CabinetError } from "../index.ts";
 import { cbErrFile } from "../types/callback.ts";
-export class FsDelete {
+export class CabinetDelete {
   filePath: string;
-  fs: DenoFs;
-  constructor(fs: DenoFs) {
+  fs: Cabinet;
+  constructor(fs: Cabinet) {
     this.filePath = fs.filePath;
     this.fs = fs;
     return this;
@@ -18,7 +18,7 @@ export class FsDelete {
     try {
       Deno.removeSync(this.filePath);
     } catch (err) {
-      new FsError(err, {
+      new CabinetError(err, {
         msg: "deleting " + this.filePath,
         perm: "write",
       });
@@ -33,7 +33,7 @@ export class FsDelete {
       })
       .catch((err) =>
         cb(
-          new FsError(err, {
+          new CabinetError(err, {
             msg: "reading " + this.filePath,
             perm: "read",
           })
@@ -41,14 +41,14 @@ export class FsDelete {
       );
   }
   promise() {
-    return new Promise((res: (file?: FsFile) => void, rej) => {
+    return new Promise((res: (file?: CabinetFile) => void, rej) => {
       Deno.remove(this.filePath)
         .then(() => {
           return res();
         })
         .catch((err) =>
           rej(
-            new FsError(err, {
+            new CabinetError(err, {
               msg: "reading " + this.filePath,
               perm: "read",
             })
