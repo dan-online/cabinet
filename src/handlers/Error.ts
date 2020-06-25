@@ -21,7 +21,7 @@ export class CabinetError {
         break;
     }
   }
-  permissionError(err: Error) {
+  private permissionError(err: Error) {
     throw new Error(
       "permission denied when " +
         this.action.msg +
@@ -31,7 +31,7 @@ export class CabinetError {
           : "")
     );
   }
-  defaultError(err: Error) {
+  private defaultError(err: Error) {
     throw new Error("Error when " + this.action.msg + ": " + err.message);
   }
 }

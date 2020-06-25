@@ -39,14 +39,12 @@ export class CabinetFile {
   }
   /**
    * Type of the file
-   * @returns "file" or "dir"
    */
   get type() {
     return this.info.isFile ? "file" : "dir";
   }
   /**
    * Size of the file
-   * @returns size of the file in bytes, kilobytes, megabytes and gigabytes
    */
   get size() {
     return {

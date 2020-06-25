@@ -14,20 +14,28 @@ import { cbErrFile } from "../types/callback.ts";
  * ```
  */
 export class CabinetRead {
+  /**
+   * Path to the file
+   */
   filePath: string;
-  fs: Cabinet;
-
+  private fs: Cabinet;
   constructor(fs: Cabinet) {
     this.filePath = fs.filePath;
     this.fs = fs;
     return this;
   }
+  /**
+   * Read the file with an optional callback
+   */
   read(callback?: cbErrFile) {
     if (!callback) {
       return this.sync();
     }
     return this.callback(callback);
   }
+  /**
+   * Synchronously read the file
+   */
   sync() {
     let read;
     try {
@@ -41,6 +49,9 @@ export class CabinetRead {
     if (!read) throw new Error("Something went wrong");
     return new CabinetFile(this.fs, this.filePath, read);
   }
+  /**
+   * Read the file and receive a callback
+   */
   callback(cb: cbErrFile) {
     if (!cb) throw new Error("Callback not specified!");
     Deno.readFile(this.filePath)
@@ -56,6 +67,9 @@ export class CabinetRead {
       );
     return new CabinetFile(this.fs, this.filePath, new Uint8Array());
   }
+  /**
+   * Read the file and receive a promise
+   */
   promise() {
     return new Promise((res: (file: CabinetFile) => void, rej) => {
       Deno.readFile(this.filePath)

@@ -11,15 +11,20 @@ import { cbErrFile } from "../types/callback.ts";
  * writer.sync("Hello!")
  * ```
  */
-
 export class CabinetWrite {
+  /**
+   * Path to the file
+   */
   filePath: string;
-  fs: Cabinet;
+  private fs: Cabinet;
   constructor(fs: Cabinet) {
     this.filePath = fs.filePath;
     this.fs = fs;
     return this;
   }
+  /**
+   * Encode the file to Uint8Array
+   */
   encode(data: any) {
     switch (typeof data) {
       case "string": {
@@ -39,12 +44,18 @@ export class CabinetWrite {
       }
     }
   }
+  /**
+   * Write to the file with an optional callback
+   */
   write(data: Uint8Array | string | object | any, callback?: cbErrFile) {
     if (!callback) {
       return this.sync(data);
     }
     return this.callback(data, callback);
   }
+  /**
+   * Synchronously write to a file
+   */
   sync(data: any) {
     let encoded;
     try {
@@ -59,6 +70,9 @@ export class CabinetWrite {
     if (!encoded) throw new Error("Something went wrong");
     return new CabinetFile(this.fs, this.filePath, encoded);
   }
+  /**
+   * Write to the file and receive a callback
+   */
   callback(data: any, cb: cbErrFile) {
     const encoded = this.encode(data);
     if (!cb) throw new Error("Callback not specified!");
@@ -69,13 +83,16 @@ export class CabinetWrite {
       .catch((err) =>
         cb(
           new CabinetError(err, {
-            msg: "reading " + this.filePath,
-            perm: "read",
+            msg: "writing " + this.filePath,
+            perm: "write",
           })
         )
       );
     return new CabinetFile(this.fs, this.filePath, encoded);
   }
+  /**
+   * Write to the file and receive a promise
+   */
   promise(data: any) {
     return new Promise((res: (file: CabinetFile) => void, rej) => {
       const encoded = this.encode(data);
@@ -86,8 +103,8 @@ export class CabinetWrite {
         .catch((err) =>
           rej(
             new CabinetError(err, {
-              msg: "reading " + this.filePath,
-              perm: "read",
+              msg: "writing " + this.filePath,
+              perm: "write",
             })
           )
         );

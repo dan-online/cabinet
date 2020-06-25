@@ -13,19 +13,29 @@ import { cbErrFile } from "../types/callback.ts";
  */
 
 export class CabinetDelete {
+  /**
+   * Path to the file
+   */
   filePath: string;
-  fs: Cabinet;
+  private fs: Cabinet;
   constructor(fs: Cabinet) {
     this.filePath = fs.filePath;
     this.fs = fs;
     return this;
   }
+  /**
+   * Default delete
+   * @param {cbErrFile} - Optional callback
+   */
   delete(callback?: cbErrFile) {
     if (!callback) {
       return this.sync();
     }
     return this.callback(callback);
   }
+  /**
+   * Synchronously delete the file
+   */
   sync() {
     try {
       Deno.removeSync(this.filePath);
@@ -37,21 +47,27 @@ export class CabinetDelete {
     }
     return true;
   }
+  /**
+   * Delete the file and receive a callback
+   */
   callback(cb: cbErrFile) {
     if (!cb) throw new Error("Callback not specified!");
     Deno.remove(this.filePath)
-      .then((read) => {
+      .then(() => {
         return cb();
       })
       .catch((err) =>
         cb(
           new CabinetError(err, {
-            msg: "reading " + this.filePath,
-            perm: "read",
+            msg: "writing " + this.filePath,
+            perm: "write",
           })
         )
       );
   }
+  /**
+   * Delete the file and receive a promise
+   */
   promise() {
     return new Promise((res: (file?: CabinetFile) => void, rej) => {
       Deno.remove(this.filePath)
@@ -61,8 +77,8 @@ export class CabinetDelete {
         .catch((err) =>
           rej(
             new CabinetError(err, {
-              msg: "reading " + this.filePath,
-              perm: "read",
+              msg: "deleting " + this.filePath,
+              perm: "write",
             })
           )
         );
