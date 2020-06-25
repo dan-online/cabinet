@@ -1,5 +1,14 @@
 
+# 2020-06-25
+- [[a1dfeb2](https://github.com/dan-online/cabinet/commit/a1dfeb2f44f28c95083656ccefcb9a735854631e)] - wrong link - ([Dan](Dan))
 
+- [[1c6a440](https://github.com/dan-online/cabinet/commit/1c6a440e26114ae78c1f56fc46551e1ec8f97c19)] - fix plastic - ([Dan](Dan))
+
+- [[7f3abfe](https://github.com/dan-online/cabinet/commit/7f3abfe1448f6d7cc4627ac1fd97b296e1aee744)] - inline - ([Dan](Dan))
+
+- [[2faf801](https://github.com/dan-online/cabinet/commit/2faf8019be0fb18faa639c5ccba96348370798d3)] - docs - ([Dan](Dan))
+
+# 2020-06-23
 - [[1ed047d](https://github.com/dan-online/cabinet/commit/1ed047d9a0c39d4dd96b709a64b602b6afede549)] - diff env - ([Dan](Dan))
 
 - [[a14cab5](https://github.com/dan-online/cabinet/commit/a14cab5072fbdebc9772d15cbcfd807d6fb49360)] - maybe this is how yml works? - ([Dan](Dan))
@@ -50,10 +59,10 @@
 
 - [[3f5a553](https://github.com/dan-online/cabinet/commit/3f5a5536b0652c12bfa5c52d57ea888809ab606d)] - fix - ([Dan](Dan))
 
-
+# 2020-06-22
 - [[24c0ba2](https://github.com/dan-online/cabinet/commit/24c0ba20e2a0ee9bddb2fed4ea8f713ec2d1a373)] - writing and more - ([Dan](Dan))
 
-
+# 2020-06-20
 - [[3435c4e](https://github.com/dan-online/cabinet/commit/3435c4e1eb11de7bde82581c9d81ae45055bed2a)] - auto charset chooser - ([DanCodes](DanCodes))
 
 - [[8d8ee3e](https://github.com/dan-online/cabinet/commit/8d8ee3ef419b8279e06f1a98688ad437767a776c)] - Merge branch 'master' of https://github.com/dan-online/deno-fs - ([DanCodes](DanCodes))
@@ -68,7 +77,7 @@
 
 - [[8c5de95](https://github.com/dan-online/cabinet/commit/8c5de95f5d1d63442b4d15e3cc89a6ab681d53c3)] - lots o changes - ([DanCodes](DanCodes))
 
-
+# 2020-06-18
 - [[6c447b9](https://github.com/dan-online/cabinet/commit/6c447b949aee6a416c64d217579b09ccef3d552b)] - diff test file - ([Dan](Dan))
 
 - [[a9cd35e](https://github.com/dan-online/cabinet/commit/a9cd35e3c0ada9d77d6984dd7906eaffc3cd147d)] - fix dirname and stuff - ([Dan](Dan))
@@ -89,7 +98,7 @@
 
 - [[2242490](https://github.com/dan-online/cabinet/commit/224249070ea5c07170d99ab93247c8963933c058)] - tests and errors - ([Dan](Dan))
 
-
+# 2020-06-16
 - [[92fb5a1](https://github.com/dan-online/cabinet/commit/92fb5a11e332a0b22d85314458ec59d0f1aaced7)] - fix example - ([Dan](Dan))
 
 - [[440cb74](https://github.com/dan-online/cabinet/commit/440cb7467999e59abcd2c8f9787ad331d1ad584e)] - fix exports - ([Dan](Dan))
