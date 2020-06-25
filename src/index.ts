@@ -18,6 +18,9 @@ import { cbErrFile } from "./types/callback.ts";
  * ```
  */
 export class Cabinet {
+  /**
+   * Path to the file
+   */
   filePath: string = "";
   static resolve: (...paths: string[]) => string = resolve;
   constructor(file: string) {
@@ -28,24 +31,45 @@ export class Cabinet {
     }
     return;
   }
+  /**
+   * File reader
+   */
   get reader() {
     return new CabinetRead(this);
   }
+  /**
+   * File writer
+   */
   get writer() {
     return new CabinetWrite(this);
   }
+  /**
+   * File deleter
+   */
   get deleter() {
     return new CabinetDelete(this);
   }
+  /**
+   * Delete the file with an optional callback
+   */
   delete(cb?: cbErrFile) {
     return this.deleter.delete(cb);
   }
+  /**
+   * Read the file with an optional callback
+   */
   read(cb?: cbErrFile) {
     return this.reader.read(cb);
   }
+  /**
+   * Write to the file with an optional callback
+   */
   write(data: any, cb?: cbErrFile) {
     return this.writer.write(data, cb);
   }
+  /**
+   * Decode Uint8Array with optional decoding
+   */
   decode(input: any, decoding: string = "utf-8") {
     var decoder;
     try {
@@ -55,6 +79,9 @@ export class Cabinet {
     }
     return decoder.decode(input);
   }
+  /**
+   * Encode text to UintArray
+   */
   encode(input: string) {
     return new TextEncoder().encode(input);
   }
