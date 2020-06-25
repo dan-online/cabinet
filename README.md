@@ -19,7 +19,7 @@ A module created for [Deno](https://deno.land) by [DanCodes](https://dancodes.on
 ### Demo
 
 ```bash
-deno run --allow-write --allow-read https://raw.githubusercontent.com/dan-online/cabinet/v1.0.0/demo.ts
+deno run --allow-write --allow-read https://raw.githubusercontent.com/dan-online/cabinet/master/demo.ts
 ```
 
 ### Testing
@@ -35,7 +35,7 @@ import {
   Cabinet,
   CabinetFile,
   CabinetError,
-} from "https://raw.githubusercontent.com/dan-online/cabinet/v1.0.0/mod.ts"; // or ./mod.ts if cloned
+} from "https://raw.githubusercontent.com/dan-online/cabinet/master/mod.ts"; // or ./mod.ts if cloned
 
 const file = new Cabinet("./testing.txt");
 
