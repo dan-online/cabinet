@@ -1,5 +1,7 @@
 
 
+- [[13d914b](https://github.com/dan-online/cabinet/commit/13d914b248c9229aa48f81e256f239eb4d4fdfc4)] - take out usage - ([Dan](Dan))
+
 - [[1717f9d](https://github.com/dan-online/cabinet/commit/1717f9dff51f8b99be13707837e035dc9ee55254)] - update readme - ([Dan](Dan))
 
 - [[3495794](https://github.com/dan-online/cabinet/commit/34957941f2b78e90490b2b0445f6f3d7386fb6eb)] - add docs - ([Dan](Dan))
