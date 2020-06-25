@@ -57,15 +57,13 @@ file.read(() => console.log("finished!"));
 
 file.reader.sync();
 
-file.reader.promise().then((CabinetFile) => {
-  console.log("read " + CabinetFile.size.mb + "mb in promise");
+file.reader.promise().then((cFile: CabinetFile) => {
+  console.log("read " + cFile.size.mb + "mb in promise");
 });
 
-file.reader.callback((err?: CabinetError, File?: CabinetFile) => {
-  console.log("read " + File?.size.mb + "mb in callback");
+file.reader.callback((err?: CabinetError, cFile?: CabinetFile) => {
+  console.log("read " + cFile?.size.mb + "mb in callback");
 });
-
-file.delete();
 ```
 
 ## Format code
