@@ -6,7 +6,17 @@ import { CabinetFile } from "./utils/File.ts";
 import { CabinetWrite } from "./handlers/Write.ts";
 import { CabinetDelete } from "./handlers/Delete.ts";
 import { cbErrFile } from "./types/callback.ts";
-
+/**
+ * @class
+ * @name Cabinet
+ * @description Handler for files
+ * @constructor
+ * @example
+ * ```
+ * const file = new Cabinet("./file.txt");
+ * file.read()
+ * ```
+ */
 export class Cabinet {
   filePath: string = "";
   static resolve: (...paths: string[]) => string = resolve;
