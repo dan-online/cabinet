@@ -1,5 +1,7 @@
 
 
+- [[966b2ea](https://github.com/dan-online/cabinet/commit/966b2eac020c9b967506385f6791af33a9ec238d)] - remove del - ([Dan](Dan))
+
 - [[13d914b](https://github.com/dan-online/cabinet/commit/13d914b248c9229aa48f81e256f239eb4d4fdfc4)] - take out usage - ([Dan](Dan))
 
 - [[1717f9d](https://github.com/dan-online/cabinet/commit/1717f9dff51f8b99be13707837e035dc9ee55254)] - update readme - ([Dan](Dan))
