@@ -1,5 +1,7 @@
 
 
+- [[3495794](https://github.com/dan-online/cabinet/commit/34957941f2b78e90490b2b0445f6f3d7386fb6eb)] - add docs - ([Dan](Dan))
+
 - [[e5ee524](https://github.com/dan-online/cabinet/commit/e5ee524d85cf61cc01a3a296604430a0020141b9)] - documentation - ([Dan](Dan))
 
 - [[0e9d4ba](https://github.com/dan-online/cabinet/commit/0e9d4bae7e016178b621e99125e1953b73fa9183)] - add cabinet class - ([Dan](Dan))
