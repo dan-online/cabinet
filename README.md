@@ -14,8 +14,6 @@ A module created for [Deno](https://deno.land) by [DanCodes](https://dancodes.on
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/dan-online/cabinet)
 [![Docs](https://img.shields.io/badge/deno-docs-green?logo=deno&color=informational)](https://doc.deno.land/https/raw.githubusercontent.com/dan-online/cabinet/master/mod.ts)
 
-## Usage
-
 ### Demo
 
 ```bash
