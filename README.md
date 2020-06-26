@@ -1,8 +1,8 @@
-> Cabinet, the easier way to manage files in Deno (WIP)
+> Cabinet, the easier way to manage files in Deno
 
 <img src="src/assets/logo.png" width="200px">
 
-# Cabinet (WIP)
+# Cabinet
 
 A module created for [Deno](https://deno.land) by [DanCodes](https://dancodes.online)
 
