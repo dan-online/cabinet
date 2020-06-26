@@ -1,8 +1,9 @@
-> Cabinet, the easier way to manage files in Deno (WIP)
 
-<img src="src/assets/logo.png" width="200px">
+> Cabinet, the easier way to manage files in Deno
 
-# Cabinet (WIP)
+<img src="https://raw.githubusercontent.com/dan-online/cabinet/master/src/assets/logo.png" width="200px">
+
+# Cabinet
 
 A module created for [Deno](https://deno.land) by [DanCodes](https://dancodes.online)
 
@@ -19,6 +20,11 @@ A module created for [Deno](https://deno.land) by [DanCodes](https://dancodes.on
 ```bash
 deno run --allow-write --allow-read https://raw.githubusercontent.com/dan-online/cabinet/master/demo.ts
 ```
+
+### Todo
+
+ - Add file moving
+ - Add resolve function for stringified file
 
 ### Testing
 
