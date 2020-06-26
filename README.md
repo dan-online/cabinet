@@ -21,6 +21,11 @@ A module created for [Deno](https://deno.land) by [DanCodes](https://dancodes.on
 deno run --allow-write --allow-read https://raw.githubusercontent.com/dan-online/cabinet/master/demo.ts
 ```
 
+### Todo
+
+ - Add file moving
+ - Add resolve function for stringified file
+
 ### Testing
 
 ```bash
