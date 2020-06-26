@@ -1,6 +1,7 @@
+
 > Cabinet, the easier way to manage files in Deno
 
-<img src="src/assets/logo.png" width="200px">
+<img src="https://raw.githubusercontent.com/dan-online/cabinet/master/src/assets/logo.png" width="200px">
 
 # Cabinet
 
