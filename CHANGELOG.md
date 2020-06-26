@@ -1,5 +1,9 @@
 
 # 2020-06-26
+- [[ace2b10](https://github.com/dan-online/cabinet/commit/ace2b1009ccd17d6e17ed44642c8c615f36f7f45)] - Merge branch 'master' of https://github.com/dan-online/deno-fs - ([Dan](Dan))
+
+- [[85f846f](https://github.com/dan-online/cabinet/commit/85f846fab00f3c5e5abf64ed6b94e71576a9be31)] - start of benchmarks - ([Dan](Dan))
+
 - [[8e48ea3](https://github.com/dan-online/cabinet/commit/8e48ea3c7951910ac85f5aca5185a95d972ad3a6)] - Update README.md - ([DanCodes](DanCodes))
 
 - [[f1d6669](https://github.com/dan-online/cabinet/commit/f1d666931fce9278ab2492ae5140c99d17d85819)] - Update README.md - ([DanCodes](DanCodes))
