@@ -1,5 +1,7 @@
 
 # 2020-06-27
+- [[c025be6](https://github.com/dan-online/cabinet/commit/c025be693038b1afa97bfb3491b363c7ae026788)] - fix mime issues - ([Dan](Dan))
+
 - [[6d0a0e8](https://github.com/dan-online/cabinet/commit/6d0a0e8b064e43ad2ed01f5f35ee68bdfe3b2106)] - update for link - ([Dan](Dan))
 
 - [[8cc6495](https://github.com/dan-online/cabinet/commit/8cc6495f8e3904f01f81480f36a33112d4668abe)] - update for deno - ([Dan](Dan))
