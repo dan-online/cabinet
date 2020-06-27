@@ -26,7 +26,7 @@ jobs:
         run: deno --version
 
       - name: Build
-        run: cd src/benchmarks; deno run -A readWrite.ts
+        run: cd src/benchmarks; TMPDIR=./ deno run -A readWrite.ts
 
       - name: push
         run: git config --global user.name "dan-online"; git config --global user.email "dan@dancodes.online"; git add -A; git commit -m "Update benchmark"; git push origin master
