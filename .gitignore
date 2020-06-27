@@ -13,4 +13,3 @@ yarn.lock
 testing.ts
 me.png
 tests.txt
-src/benchmarks/runs.json
