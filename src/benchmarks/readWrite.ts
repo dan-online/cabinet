@@ -97,11 +97,9 @@ testSize(0.5, 100, function (tiny) {
   testSize(1, 100, function (small) {
     testSize(5, 50, function (medium) {
       testSize(10, 10, function (large) {
-        testSize(20, 5, function (giant) {
-          new Cabinet("./runs.json").write(
-            { tiny, small, medium, large, giant },
-          );
-        });
+        new Cabinet("./runs.json").write(
+          { tiny, small, medium, large },
+        );
       });
     });
   });
