@@ -12,7 +12,8 @@ A module created for [Deno](https://deno.land) by [DanCodes](https://dancodes.on
 [![DanCodes Discord](https://img.shields.io/discord/478586684666150934?color=%237289DA&label=discord%20support&logo=discord&logoColor=%23fff)](https://discord.gg/fdpcZAA)
 ![GitHub repo size](https://img.shields.io/github/repo-size/dan-online/cabinet)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/dan-online/cabinet)
-[![Docs](https://img.shields.io/badge/deno-docs-green?logo=deno&color=informational)](https://doc.deno.land/https/raw.githubusercontent.com/dan-online/cabinet/master/mod.ts)
+[![Docs](https://img.shields.io/badge/deno-docs-green?logo=deno&color=informational)](https://doc.deno.land/https/deno.land/x/cabinet/mod.ts)
+[![Docs](https://img.shields.io/badge/deno-module-red?logo=deno)](https://deno.land/x/cabinet)
 
 ### Demo
 
