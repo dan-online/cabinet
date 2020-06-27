@@ -1,4 +1,9 @@
 
+# 2020-06-27
+- [[6d0a0e8](https://github.com/dan-online/cabinet/commit/6d0a0e8b064e43ad2ed01f5f35ee68bdfe3b2106)] - update for link - ([Dan](Dan))
+
+- [[8cc6495](https://github.com/dan-online/cabinet/commit/8cc6495f8e3904f01f81480f36a33112d4668abe)] - update for deno - ([Dan](Dan))
+
 # 2020-06-26
 - [[ace2b10](https://github.com/dan-online/cabinet/commit/ace2b1009ccd17d6e17ed44642c8c615f36f7f45)] - Merge branch 'master' of https://github.com/dan-online/deno-fs - ([Dan](Dan))
 
