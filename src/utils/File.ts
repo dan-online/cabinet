@@ -1,6 +1,6 @@
 import { Cabinet } from "../index.ts";
 import { resolve } from "../deps.ts";
-
+import { mimes } from "../assets/mimes.ts";
 /**
  * @name CabinetFile
  * @description Contains info and the data of a requested file
@@ -58,16 +58,6 @@ export class CabinetFile {
    * Mime of the file
    */
   get mime() {
-    const loc = resolve(
-      import.meta.url
-        .split("file://")
-        .join("")
-        .split("/utils/File.ts")
-        .join("/assets/mimes.json")
-    );
-    const mimes = Object.entries(
-      JSON.parse(Deno.readTextFileSync(loc))
-    ).map((x) => ({ name: x[0], info: x[1] }));
     const found:
       | { name: string; info: any }
       | undefined = mimes.find((x: { name: string; info: any }) =>
