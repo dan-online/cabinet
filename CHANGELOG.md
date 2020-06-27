@@ -1,5 +1,7 @@
 
 # 2020-06-27
+- [[819d42d](https://github.com/dan-online/cabinet/commit/819d42d59f8e7ee192821a39eb557f996ce0fcaa)] - benchmark? - ([DanCodes](DanCodes))
+
 - [[0dab65c](https://github.com/dan-online/cabinet/commit/0dab65ce173cf205436fa8a1e5c85ee3df8fb855)] - store last encodings and decodings and more benchmarking - ([DanCodes](DanCodes))
 
 - [[9402c92](https://github.com/dan-online/cabinet/commit/9402c92c1a4f7aa9f11fa0a4048d689c1deee49a)] - benchmark - ([Dan](Dan))
