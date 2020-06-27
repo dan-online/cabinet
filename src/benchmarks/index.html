@@ -1,13 +1,226 @@
 <html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      crossorigin="anonymous"
+    />
+  </head>
   <body>
-    <canvas id="myChart"></canvas>
+    <div id="app">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mt-2 text-center">
+            Size: {{results.info.size.mb}}mb<br />
+            Runs: {{results.info.amount}}<br />
+            Runs/s: {{parseInt((results.info.amount / results.info.speed) * 100)
+            / 100}}<br />
+            Time: {{results.info.speed}}s<br />
+            Avg Write Speed: {{writeSpeed}}ms<br />
+            Avg Read Speed: {{readSpeed}}ms<br />
+            Avg Write: {{parseInt((results.info.size.mb / (writeSpeed / 1000)) *
+            100) / 100}}mb/s<br />
+            Avg Read: {{parseInt((results.info.size.mb / (readSpeed / 1000)) *
+            100) / 100}}mb/s
+          </div>
+          <div class="col-md-12 text-center mt-2">
+            <button
+              @click="yAxes('logarithmic')"
+              :class="(charts[0] && charts[0].chart.options.scales.yAxes[0].type == 'logarithmic' ? 'disabled' : '')"
+              class="btn btn-primary mr-2"
+            >
+              Logarithmic
+            </button>
+            <button
+              @click="yAxes('linear')"
+              :class="(charts[0] && charts[0].chart.options.scales.yAxes[0].type == 'linear' ? 'disabled' : '')"
+              class="btn btn-primary"
+            >
+              Linear
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <canvas id="writeChart"></canvas>
+        </div>
+        <div class="col-md-6">
+          <canvas id="readChart"></canvas>
+        </div>
+      </div>
+    </div>
   </body>
   <script
     src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"
     integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI="
     crossorigin="anonymous"
   ></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
   <script>
+    const firstColor = getRandomColor();
+    const secondColor = getRandomColor();
+    const app = new Vue({
+      el: "#app",
+      data() {
+        return {
+          writeSpeed: 0,
+          readSpeed: 0,
+          results: {
+            info: { size: { mb: 0 }, amount: 0 },
+            cabinet: {
+              reads: [],
+              writes: [],
+            },
+          },
+          charts: [],
+        };
+      },
+      beforeMount() {
+        const run = () => {
+          this.updateInfo();
+        };
+        setInterval(run, 1000);
+        run();
+      },
+      methods: {
+        yAxes(type) {
+          this.charts.forEach((c) => {
+            c.chart.options.scales.yAxes = [
+              {
+                type,
+                ticks: {
+                  precision: 3,
+                },
+              },
+            ];
+            c.chart.update();
+          });
+        },
+        updateInfo() {
+          fetch("./runs.json?cache=" + Math.random())
+            .then((val) => val.json())
+            .then((val) => {
+              this.results = val;
+              this.writeSpeed =
+                this.results.cabinet.writes.reduce(
+                  (prev, curr) => (prev += curr.speed),
+                  0
+                ) / this.results.cabinet.writes.length;
+              this.readSpeed =
+                this.results.cabinet.reads.reduce(
+                  (prev, curr) => (prev += curr.speed),
+                  0
+                ) / this.results.cabinet.reads.length;
+              const datasetsWrite = [
+                {
+                  borderColor: firstColor,
+                  label: "Cabinet write (ms)",
+                  data: this.results.cabinet.writes.map((x) => ({
+                    x: x.trial,
+                    y: x.speed,
+                  })),
+                },
+                {
+                  borderColor: secondColor,
+                  label: "Deno write (ms)",
+                  data: this.results.deno.writes.map((x) => ({
+                    x: x.trial,
+                    y: x.speed,
+                  })),
+                },
+              ];
+              const datasetsRead = [
+                {
+                  borderColor: firstColor,
+                  label: "Cabinet read (ms)",
+                  data: this.results.cabinet.reads.map((x) => ({
+                    x: x.trial,
+                    y: x.speed,
+                  })),
+                },
+                {
+                  borderColor: secondColor,
+                  label: "Deno read (ms)",
+                  data: this.results.deno.reads.map((x) => ({
+                    x: x.trial,
+                    y: x.speed,
+                  })),
+                },
+              ];
+              const labels = this.results.cabinet.writes.map((x) => x.trial);
+              if (this.charts.length > 0) {
+                let timeout =
+                  this.results.cabinet.writes[0].speed ==
+                  this.charts[0].chart.data.datasets[0].data[0].y
+                    ? 0
+                    : undefined;
+                this.charts.find(
+                  (x) => x.name == "write"
+                ).chart.data.datasets = datasetsWrite;
+                this.charts.find(
+                  (x) => x.name == "read"
+                ).chart.data.datasets = datasetsRead;
+                // this.chart.data.labels = labels;
+                return this.charts.forEach((c) => {
+                  c.chart.data.labels = labels;
+                  c.chart.update(timeout);
+                });
+              }
+              ctx = document.getElementById("writeChart").getContext("2d");
+              this.charts.push({
+                name: "write",
+                chart: new Chart(ctx, {
+                  type: "line",
+                  data: {
+                    labels,
+                    datasets: datasetsWrite,
+                  },
+                  options: {
+                    scales: {
+                      yAxes: [
+                        {
+                          type: "logarithmic",
+                          ticks: {
+                            // stepSize: 0.01,
+                            precision: 3,
+                            // beginAtZero: true,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                }),
+              });
+              var ctx = document.getElementById("readChart").getContext("2d");
+              this.charts.push({
+                name: "read",
+                chart: new Chart(ctx, {
+                  type: "line",
+                  data: {
+                    labels,
+                    datasets: datasetsRead,
+                  },
+                  options: {
+                    scales: {
+                      yAxes: [
+                        {
+                          type: "logarithmic",
+                          ticks: {
+                            precision: 3,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                }),
+              });
+            });
+        },
+      },
+    });
     function getRandomColor() {
       var letters = "0123456789ABCDEF";
       var color = "#";
@@ -23,46 +236,5 @@
       const filt = someArray.filter((x) => x.y < avg + 10);
       return filt;
     }
-    fetch("./runs.json")
-      .then((val) => val.json())
-      .then((val) => {
-        console.log(val);
-        var ctx = document.getElementById("myChart").getContext("2d");
-        var myChart = new Chart(ctx, {
-          type: "line",
-          data: {
-            labels: val.writes.map((x) => x.trial),
-            datasets: [
-              {
-                borderColor: getRandomColor(),
-                label: "Speed of write (ms)",
-                data: filterOutliers(
-                  val.writes.map((x) => ({ x: x.trial, y: x.speed }))
-                ),
-              },
-              {
-                borderColor: getRandomColor(),
-                label: "Speed of read (ms)",
-                data: filterOutliers(
-                  val.reads.map((x) => ({ x: x.trial, y: x.speed }))
-                ),
-              },
-            ],
-          },
-          options: {
-            scales: {
-              yAxes: [
-                {
-                  ticks: {
-                    // stepSize: 0.01,
-                    precision: 3,
-                    // beginAtZero: true,
-                  },
-                },
-              ],
-            },
-          },
-        });
-      });
   </script>
 </html>
