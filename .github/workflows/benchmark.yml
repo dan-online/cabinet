@@ -1,0 +1,32 @@
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        deno: [1.x]
+    name: Test with Deno ${{ matrix.deno }}
+
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Setup Deno
+        uses: denolib/setup-deno@master
+        with:
+          deno-version: ${{ matrix.deno }}
+
+      - name: Setup Node
+        uses: actions/setup-node@master
+        with:
+          node-version: 12
+
+      - name: Print deno version
+        run: deno --version
+
+      - name: Build
+        run: cd src/benchmarks; deno run -A readWrite.ts
+
+      - name: push
+        run: git config --global user.name "dan-online"; git config --global user.email "dan@dancodes.online"; git add -A; git commit -m "Update benchmark"; git push origin master
