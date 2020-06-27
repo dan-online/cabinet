@@ -1,5 +1,7 @@
 
 # 2020-06-27
+- [[0dab65c](https://github.com/dan-online/cabinet/commit/0dab65ce173cf205436fa8a1e5c85ee3df8fb855)] - store last encodings and decodings and more benchmarking - ([DanCodes](DanCodes))
+
 - [[9402c92](https://github.com/dan-online/cabinet/commit/9402c92c1a4f7aa9f11fa0a4048d689c1deee49a)] - benchmark - ([Dan](Dan))
 
 - [[dad4787](https://github.com/dan-online/cabinet/commit/dad478784c940c701471b0d8cd3ab341a8a119ea)] - change mimes import strategy - ([Dan](Dan))
