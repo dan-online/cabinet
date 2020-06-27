@@ -11,8 +11,10 @@ function testSize(MB: number, amount: number, cb: (any: any) => void) {
   let reads: any[] = [];
   let denoWrites: any[] = [];
   let denoReads: any[] = [];
-  let info = new Cabinet(tmp + Math.random().toString()).write(a);
-  const File = new Cabinet(tmp + Math.random().toString().split(".")[1]);
+  let info = new Cabinet(tmp + Math.random().toString() + ".txt").write(a);
+  const File = new Cabinet(
+    tmp + Math.random().toString().split(".")[1] + ".txt",
+  );
   function test() {
     let startTime = new Date().getTime();
     File.writer.sync(a);
@@ -41,7 +43,7 @@ function testSize(MB: number, amount: number, cb: (any: any) => void) {
   }
 
   function testDeno() {
-    const location = tmp + Math.random().toString().split(".")[1];
+    const location = tmp + Math.random().toString().split(".")[1] + ".txt";
     let startTime = new Date().getTime();
     const encode = new TextEncoder().encode(a);
     Deno.writeFileSync(location, encode);
