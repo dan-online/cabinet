@@ -1,12 +1,14 @@
 
-# 2020-06-27
+
+- [[dad4787](https://github.com/dan-online/cabinet/commit/dad478784c940c701471b0d8cd3ab341a8a119ea)] - change mimes import strategy - ([Dan](Dan))
+
 - [[c025be6](https://github.com/dan-online/cabinet/commit/c025be693038b1afa97bfb3491b363c7ae026788)] - fix mime issues - ([Dan](Dan))
 
 - [[6d0a0e8](https://github.com/dan-online/cabinet/commit/6d0a0e8b064e43ad2ed01f5f35ee68bdfe3b2106)] - update for link - ([Dan](Dan))
 
 - [[8cc6495](https://github.com/dan-online/cabinet/commit/8cc6495f8e3904f01f81480f36a33112d4668abe)] - update for deno - ([Dan](Dan))
 
-# 2020-06-26
+
 - [[ace2b10](https://github.com/dan-online/cabinet/commit/ace2b1009ccd17d6e17ed44642c8c615f36f7f45)] - Merge branch 'master' of https://github.com/dan-online/deno-fs - ([Dan](Dan))
 
 - [[85f846f](https://github.com/dan-online/cabinet/commit/85f846fab00f3c5e5abf64ed6b94e71576a9be31)] - start of benchmarks - ([Dan](Dan))
@@ -17,7 +19,7 @@
 
 - [[62af070](https://github.com/dan-online/cabinet/commit/62af070a48246642eb5c21b631d76529acbd2ee5)] - No longer WIP - ([DanCodes](DanCodes))
 
-# 2020-06-25
+
 - [[966b2ea](https://github.com/dan-online/cabinet/commit/966b2eac020c9b967506385f6791af33a9ec238d)] - remove del - ([Dan](Dan))
 
 - [[13d914b](https://github.com/dan-online/cabinet/commit/13d914b248c9229aa48f81e256f239eb4d4fdfc4)] - take out usage - ([Dan](Dan))
@@ -38,7 +40,7 @@
 
 - [[2faf801](https://github.com/dan-online/cabinet/commit/2faf8019be0fb18faa639c5ccba96348370798d3)] - docs - ([Dan](Dan))
 
-# 2020-06-23
+
 - [[1ed047d](https://github.com/dan-online/cabinet/commit/1ed047d9a0c39d4dd96b709a64b602b6afede549)] - diff env - ([Dan](Dan))
 
 - [[a14cab5](https://github.com/dan-online/cabinet/commit/a14cab5072fbdebc9772d15cbcfd807d6fb49360)] - maybe this is how yml works? - ([Dan](Dan))
@@ -89,10 +91,10 @@
 
 - [[3f5a553](https://github.com/dan-online/cabinet/commit/3f5a5536b0652c12bfa5c52d57ea888809ab606d)] - fix - ([Dan](Dan))
 
-# 2020-06-22
+
 - [[24c0ba2](https://github.com/dan-online/cabinet/commit/24c0ba20e2a0ee9bddb2fed4ea8f713ec2d1a373)] - writing and more - ([Dan](Dan))
 
-# 2020-06-20
+
 - [[3435c4e](https://github.com/dan-online/cabinet/commit/3435c4e1eb11de7bde82581c9d81ae45055bed2a)] - auto charset chooser - ([DanCodes](DanCodes))
 
 - [[8d8ee3e](https://github.com/dan-online/cabinet/commit/8d8ee3ef419b8279e06f1a98688ad437767a776c)] - Merge branch 'master' of https://github.com/dan-online/deno-fs - ([DanCodes](DanCodes))
@@ -107,7 +109,7 @@
 
 - [[8c5de95](https://github.com/dan-online/cabinet/commit/8c5de95f5d1d63442b4d15e3cc89a6ab681d53c3)] - lots o changes - ([DanCodes](DanCodes))
 
-# 2020-06-18
+
 - [[6c447b9](https://github.com/dan-online/cabinet/commit/6c447b949aee6a416c64d217579b09ccef3d552b)] - diff test file - ([Dan](Dan))
 
 - [[a9cd35e](https://github.com/dan-online/cabinet/commit/a9cd35e3c0ada9d77d6984dd7906eaffc3cd147d)] - fix dirname and stuff - ([Dan](Dan))
@@ -128,7 +130,7 @@
 
 - [[2242490](https://github.com/dan-online/cabinet/commit/224249070ea5c07170d99ab93247c8963933c058)] - tests and errors - ([Dan](Dan))
 
-# 2020-06-16
+
 - [[92fb5a1](https://github.com/dan-online/cabinet/commit/92fb5a11e332a0b22d85314458ec59d0f1aaced7)] - fix example - ([Dan](Dan))
 
 - [[440cb74](https://github.com/dan-online/cabinet/commit/440cb7467999e59abcd2c8f9787ad331d1ad584e)] - fix exports - ([Dan](Dan))
