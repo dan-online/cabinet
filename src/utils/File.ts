@@ -58,8 +58,15 @@ export class CabinetFile {
    * Mime of the file
    */
   get mime() {
+    const loc = resolve(
+      import.meta.url
+        .split("file://")
+        .join("")
+        .split("/utils/File.ts")
+        .join("/assets/mimes.json")
+    );
     const mimes = Object.entries(
-      JSON.parse(Deno.readTextFileSync(resolve("./src/assets/mimes.json")))
+      JSON.parse(Deno.readTextFileSync(loc))
     ).map((x) => ({ name: x[0], info: x[1] }));
     const found:
       | { name: string; info: any }
