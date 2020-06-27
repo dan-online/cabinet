@@ -11,20 +11,77 @@
     <div id="app">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mt-2 text-center">
-            Size: {{results.info.size.mb}}mb<br />
-            Runs: {{results.info.amount}}<br />
-            Runs/s: {{parseInt((results.info.amount / results.info.speed) * 100)
-            / 100}}<br />
-            Time: {{results.info.speed}}s<br />
-            Avg Write Speed: {{writeSpeed}}ms<br />
-            Avg Read Speed: {{readSpeed}}ms<br />
-            Avg Write: {{parseInt((results.info.size.mb / (writeSpeed / 1000)) *
-            100) / 100}}mb/s<br />
-            Avg Read: {{parseInt((results.info.size.mb / (readSpeed / 1000)) *
-            100) / 100}}mb/s
+          <!-- <div class="col-md-12 mt-2 text-center">
+            <h1>{{results.info.amount}} runs of {{results.info.size.mb}}MB</h1>
           </div>
-          <div class="col-md-12 text-center mt-2">
+          <div class="col-md-12 mt-2 text-center">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Avg write speed</th>
+                  <th scope="col">Avg read speed</th>
+                  <th scope="col">Range write speed</th>
+                  <th scope="col">Range read speed</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Cabinet</th>
+                  <td>
+                    {{ s.data.cabinet.writes.reduce((prev, curr) => prev +
+                    curr.speed,0) / s.data.cabinet.writes.length}}ms
+                  </td>
+                  <td>
+                    {{ s.data.cabinet.reads.reduce((prev, curr) => prev +
+                    curr.speed,0) / s.data.cabinet.reads.length}}ms
+                  </td>
+                  <td>
+                    {{ s.data.cabinet.writes.reduce((prev, curr) => curr.speed
+                    < prev ? curr.speed : prev,Infinity) /
+                    s.data.cabinet.writes.length}}ms - {{
+                    s.data.cabinet.writes.reduce((prev, curr) => curr.speed >
+                    prev ? curr.speed : prev,0) /
+                    s.data.cabinet.writes.length}}ms
+                  </td>
+                  <td>
+                    {{ s.data.cabinet.reads.reduce((prev, curr) => curr.speed <
+                    prev ? curr.speed : prev,Infinity) /
+                    s.data.cabinet.reads.length}}ms - {{
+                    s.data.cabinet.reads.reduce((prev, curr) => curr.speed >
+                    prev ? curr.speed : prev,0) /
+                    s.data.cabinet.reads.length}}ms
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Deno</th>
+                  <td>
+                    {{ s.data.deno.writes.reduce((prev, curr) => prev +
+                    curr.speed,0) / s.data.deno.writes.length}}ms
+                  </td>
+                  <td>
+                    {{ s.data.deno.reads.reduce((prev, curr) => prev +
+                    curr.speed,0) / s.data.deno.reads.length}}ms
+                  </td>
+                  <td>
+                    {{ s.data.deno.writes.reduce((prev, curr) => curr.speed <
+                    prev ? curr.speed : prev,Infinity) /
+                    s.data.deno.writes.length}}ms - {{
+                    s.data.deno.writes.reduce((prev, curr) => curr.speed > prev
+                    ? curr.speed : prev,0) / s.data.deno.writes.length}}ms
+                  </td>
+                  <td>
+                    {{ s.data.deno.reads.reduce((prev, curr) => curr.speed <
+                    prev ? curr.speed : prev,Infinity) /
+                    s.data.deno.reads.length}}ms - {{
+                    s.data.deno.reads.reduce((prev, curr) => curr.speed > prev
+                    ? curr.speed : prev,0) / s.data.deno.reads.length}}ms
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div> -->
+          <div class="col-md-12 text-center mt-2 mb-4">
             <button
               @click="yAxes('logarithmic')"
               :class="(charts[0] && charts[0].chart.options.scales.yAxes[0].type == 'logarithmic' ? 'disabled' : '')"
@@ -42,12 +99,71 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <canvas id="writeChart"></canvas>
+      <div class="row" v-for="s in results">
+        <div class="col-md-12 text-center" v-if="s.name">
+          <h3>
+            {{s.name[0].toUpperCase() + s.name.slice(1)}}
+            ({{s.data.info.size.mb}}MB) - {{s.data.info.amount}} runs
+          </h3>
+        </div>
+        <div class="col-md-12 m-2 text-center" v-if="s.name">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Avg write speed</th>
+                <th scope="col">Avg read speed</th>
+                <th scope="col">Range write speed</th>
+                <th scope="col">Range read speed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Cabinet</th>
+                <td>
+                  {{ s.data.cabinet.writes.reduce((prev, curr) => prev +
+                  curr.speed,0) / s.data.cabinet.writes.length}}ms
+                </td>
+                <td>
+                  {{ s.data.cabinet.reads.reduce((prev, curr) => prev +
+                  curr.speed,0) / s.data.cabinet.reads.length}}ms
+                </td>
+                <td>
+                  {{ Math.min(...s.data.cabinet.writes.map(x => x.speed))}}ms -
+                  {{ Math.max(...s.data.cabinet.writes.map(x => x.speed))}}ms
+                </td>
+                <td>
+                  {{ Math.min(...s.data.cabinet.reads.map(x => x.speed))}}ms -
+                  {{ Math.max(...s.data.cabinet.reads.map(x => x.speed))}}ms
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Deno</th>
+                <td>
+                  {{ s.data.deno.writes.reduce((prev, curr) => prev +
+                  curr.speed,0) / s.data.deno.writes.length}}ms
+                </td>
+                <td>
+                  {{ s.data.deno.reads.reduce((prev, curr) => prev +
+                  curr.speed,0) / s.data.deno.reads.length}}ms
+                </td>
+                <td>
+                  {{ Math.min(...s.data.deno.writes.map(x => x.speed))}}ms - {{
+                  Math.max(...s.data.deno.writes.map(x => x.speed))}}ms
+                </td>
+                <td>
+                  {{ Math.min(...s.data.deno.reads.map(x => x.speed))}}ms - {{
+                  Math.max(...s.data.deno.reads.map(x => x.speed))}}ms
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="col-md-6">
-          <canvas id="readChart"></canvas>
+          <canvas :id="'writeChart' + s.name"></canvas>
+        </div>
+        <div class="col-md-6">
+          <canvas :id="'readChart' + s.name"></canvas>
         </div>
       </div>
     </div>
@@ -66,8 +182,7 @@
       el: "#app",
       data() {
         return {
-          writeSpeed: 0,
-          readSpeed: 0,
+          Math: Math,
           results: {
             info: { size: { mb: 0 }, amount: 0 },
             cabinet: {
@@ -103,119 +218,130 @@
           fetch("./runs.json?cache=" + Math.random())
             .then((val) => val.json())
             .then((val) => {
-              this.results = val;
-              this.writeSpeed =
-                this.results.cabinet.writes.reduce(
-                  (prev, curr) => (prev += curr.speed),
-                  0
-                ) / this.results.cabinet.writes.length;
-              this.readSpeed =
-                this.results.cabinet.reads.reduce(
-                  (prev, curr) => (prev += curr.speed),
-                  0
-                ) / this.results.cabinet.reads.length;
-              const datasetsWrite = [
-                {
-                  borderColor: firstColor,
-                  label: "Cabinet write (ms)",
-                  data: this.results.cabinet.writes.map((x) => ({
-                    x: x.trial,
-                    y: x.speed,
-                  })),
-                },
-                {
-                  borderColor: secondColor,
-                  label: "Deno write (ms)",
-                  data: this.results.deno.writes.map((x) => ({
-                    x: x.trial,
-                    y: x.speed,
-                  })),
-                },
-              ];
-              const datasetsRead = [
-                {
-                  borderColor: firstColor,
-                  label: "Cabinet read (ms)",
-                  data: this.results.cabinet.reads.map((x) => ({
-                    x: x.trial,
-                    y: x.speed,
-                  })),
-                },
-                {
-                  borderColor: secondColor,
-                  label: "Deno read (ms)",
-                  data: this.results.deno.reads.map((x) => ({
-                    x: x.trial,
-                    y: x.speed,
-                  })),
-                },
-              ];
-              const labels = this.results.cabinet.writes.map((x) => x.trial);
-              if (this.charts.length > 0) {
-                let timeout =
-                  this.results.cabinet.writes[0].speed ==
-                  this.charts[0].chart.data.datasets[0].data[0].y
-                    ? 0
-                    : undefined;
-                this.charts.find(
-                  (x) => x.name == "write"
-                ).chart.data.datasets = datasetsWrite;
-                this.charts.find(
-                  (x) => x.name == "read"
-                ).chart.data.datasets = datasetsRead;
-                // this.chart.data.labels = labels;
-                return this.charts.forEach((c) => {
-                  c.chart.data.labels = labels;
-                  c.chart.update(timeout);
+              this.results = Object.entries(val).map((x) => ({
+                name: x[0],
+                data: x[1],
+              }));
+              this.$nextTick(() => {
+                this.results.forEach((d) => {
+                  const result = d.data;
+                  const name = d.name;
+                  const datasetsWrite = [
+                    {
+                      borderColor: firstColor,
+                      label: "Cabinet write (ms)",
+                      data: result.cabinet.writes.map((x) => ({
+                        x: x.trial,
+                        y: x.speed,
+                      })),
+                    },
+                    {
+                      borderColor: secondColor,
+                      label: "Deno write (ms)",
+                      data: result.deno.writes.map((x) => ({
+                        x: x.trial,
+                        y: x.speed,
+                      })),
+                    },
+                  ];
+                  const datasetsRead = [
+                    {
+                      borderColor: firstColor,
+                      label: "Cabinet read (ms)",
+                      data: result.cabinet.reads.map((x) => ({
+                        x: x.trial,
+                        y: x.speed,
+                      })),
+                    },
+                    {
+                      borderColor: secondColor,
+                      label: "Deno read (ms)",
+                      data: result.deno.reads.map((x) => ({
+                        x: x.trial,
+                        y: x.speed,
+                      })),
+                    },
+                  ];
+                  const labels = result.cabinet.writes.map((x) => x.trial);
+                  if (this.charts.find((x) => x.name == "write" + name)) {
+                    let timeout =
+                      result.cabinet.writes[0].speed ==
+                      this.charts.find((x) => x.name == "write" + name).chart
+                        .data.datasets[0].data[0].y
+                        ? 0
+                        : undefined;
+                    this.charts.find(
+                      (x) => x.name == "write" + name
+                    ).chart.data.datasets = datasetsWrite;
+                    this.charts.find(
+                      (x) => x.name == "read" + name
+                    ).chart.data.datasets = datasetsRead;
+                    return this.charts.forEach((c) => {
+                      // c.chart.data.labels = labels;
+                      c.chart.update(timeout);
+                    });
+                  }
+                  var ctx = document
+                    .getElementById("writeChart" + name)
+                    .getContext("2d");
+                  this.charts.push({
+                    name: "write" + name,
+                    chart: new Chart(ctx, {
+                      type: "line",
+                      data: {
+                        labels,
+                        datasets: datasetsWrite,
+                      },
+                      options: {
+                        scales: {
+                          xAxes: [
+                            {
+                              ticks: {},
+                            },
+                          ],
+                          yAxes: [
+                            {
+                              type: "logarithmic",
+                              ticks: {
+                                precision: 3,
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    }),
+                  });
+                  ctx = document
+                    .getElementById("readChart" + name)
+                    .getContext("2d");
+                  this.charts.push({
+                    name: "read" + name,
+                    chart: new Chart(ctx, {
+                      type: "line",
+                      data: {
+                        labels,
+                        datasets: datasetsRead,
+                      },
+                      options: {
+                        scales: {
+                          xAxes: [
+                            {
+                              ticks: {},
+                            },
+                          ],
+                          yAxes: [
+                            {
+                              type: "logarithmic",
+                              ticks: {
+                                precision: 3,
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    }),
+                  });
                 });
-              }
-              ctx = document.getElementById("writeChart").getContext("2d");
-              this.charts.push({
-                name: "write",
-                chart: new Chart(ctx, {
-                  type: "line",
-                  data: {
-                    labels,
-                    datasets: datasetsWrite,
-                  },
-                  options: {
-                    scales: {
-                      yAxes: [
-                        {
-                          type: "logarithmic",
-                          ticks: {
-                            // stepSize: 0.01,
-                            precision: 3,
-                            // beginAtZero: true,
-                          },
-                        },
-                      ],
-                    },
-                  },
-                }),
-              });
-              var ctx = document.getElementById("readChart").getContext("2d");
-              this.charts.push({
-                name: "read",
-                chart: new Chart(ctx, {
-                  type: "line",
-                  data: {
-                    labels,
-                    datasets: datasetsRead,
-                  },
-                  options: {
-                    scales: {
-                      yAxes: [
-                        {
-                          type: "logarithmic",
-                          ticks: {
-                            precision: 3,
-                          },
-                        },
-                      ],
-                    },
-                  },
-                }),
               });
             });
         },

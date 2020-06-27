@@ -1,47 +1,50 @@
-import { Cabinet, CabinetFile } from "../../mod.ts";
+import { Cabinet } from "../../mod.ts";
 // cd to me and run deno run --unstable -A ./benchmarks.ts;  python -m SimpleHTTPServer
-const tmp = Deno.env.get("TMPDIR");
-const amount = 50;
-const a = Array(2000000).fill("A").join("");
-let writes: any[] = [];
-let reads: any[] = [];
-let denoWrites: any[] = [];
-let denoReads: any[] = [];
-let info = new Cabinet(tmp + Math.random().toString()).write(a);
-function test() {
+function testSize(MB: number, amount: number, cb: (any: any) => void) {
+  const tmp = Deno.env.get("TMPDIR");
+  if (!tmp) throw new Error("No temp dir found");
+  const a = Array(MB * 1000000).fill("A").map((x) => {
+    let r = Math.random().toString().split(".")[1];
+    return r.split("")[r.split("").length - 1];
+  }).join("");
+  let writes: any[] = [];
+  let reads: any[] = [];
+  let denoWrites: any[] = [];
+  let denoReads: any[] = [];
+  let info = new Cabinet(tmp + Math.random().toString()).write(a);
   const File = new Cabinet(tmp + Math.random().toString().split(".")[1]);
-  let startTime = new Date().getTime();
-  File.writer.promise(a).then(() => {
+  function test() {
+    let startTime = new Date().getTime();
+    File.writer.sync(a);
     writes.push({
       trial: writes.length,
       time: new Date().getTime(),
       speed: new Date().getTime() - startTime,
     });
     startTime = new Date().getTime();
-    File.reader.promise().then((file: CabinetFile) => {
-      if (file.contents != a) {
-        console.error(new Error("Wrong contents!"));
-        return Deno.exit();
-      }
-      reads.push({
-        trial: reads.length,
-        time: new Date().getTime(),
-        speed: new Date().getTime() - startTime,
-      });
-      if (writes.length >= amount) {
-        console.log("starting deno test");
-        return setTimeout(testDeno, 10000);
-      } else {
-        return setTimeout(test, 10);
-      }
+    File.reader.sync();
+    reads.push({
+      trial: reads.length,
+      time: new Date().getTime(),
+      speed: new Date().getTime() - startTime,
     });
-  });
-}
+    if (writes.length > amount) {
+      console.log("Finished " + writes.length + " cabinet runs");
+      console.log("starting deno test");
+      return setTimeout(testDeno, 1000);
+    } else {
+      if (writes.length == amount / 2) {
+        console.log("Finished " + writes.length + " cabinet runs");
+      }
+      return setTimeout(test, 10);
+    }
+  }
 
-function testDeno() {
-  const location = tmp + Math.random().toString().split(".")[1];
-  let startTime = new Date().getTime();
-  Deno.writeFile(location, new TextEncoder().encode(a)).then(() => {
+  function testDeno() {
+    const location = tmp + Math.random().toString().split(".")[1];
+    let startTime = new Date().getTime();
+    const encode = new TextEncoder().encode(a);
+    Deno.writeFileSync(location, encode);
     denoWrites.push({
       trial: denoWrites.length,
       time: new Date().getTime(),
@@ -49,55 +52,55 @@ function testDeno() {
     });
     startTime = new Date().getTime();
     // console.log("Finished " + denoWrites.length + " writes");
-    Deno.readFile(location).then((val) => {
-      const contents = new TextDecoder().decode(val);
-      if (contents != a) {
-        console.error(new Error("Wrong contents!"));
-        return Deno.exit();
-      }
-      denoReads.push({
-        trial: denoReads.length,
-        time: new Date().getTime(),
-        speed: new Date().getTime() - startTime,
-      });
-      if (denoWrites.length >= amount) {
-        done();
-      } else {
-        return setTimeout(testDeno, 10);
-      }
+    const val = Deno.readFileSync(location);
+    new TextDecoder().decode(val);
+    Deno.statSync(location);
+    denoReads.push({
+      trial: denoReads.length,
+      time: new Date().getTime(),
+      speed: new Date().getTime() - startTime,
     });
-  });
-}
+    if (denoWrites.length > amount) {
+      console.log("Finished " + writes.length + " deno runs");
+      done();
+    } else {
+      if (denoWrites.length == amount / 2) {
+        console.log("Finished " + denoWrites.length + " deno runs");
+      }
+      return setTimeout(testDeno, 10);
+    }
+  }
 
-function done() {
-  const writeSpeed = (new Date().getTime() - writes[0].time) / 1000;
-  console.log(
-    `\nWrites: ${writes.length}\nWrites/s: ${
-      writes.length / writeSpeed
-    }\nTime: ${writeSpeed}s\nAvg Speed: ${
-      writes.reduce((prev, curr) => (prev += curr.speed), 0) / writes.length
-    }ms`
-  );
-  // const readSpeed = (new Date().getTime() - reads[0].time) / 1000;
-  // console.log(
-  //   `\nReads: ${reads.length}\nReads/s: ${
-  //     reads.length / readSpeed
-  //   }\nTime: ${readSpeed}s\nAvg Speed: ${
-  //     reads.reduce((prev, curr) => (prev += curr.speed), 0) / reads.length
-  //   }ms`
-  // );
-  new Cabinet("./runs.json").write({
-    info: { size: info.size, amount, speed: writeSpeed },
-    cabinet: {
-      writes,
-      reads,
-    },
-    deno: {
-      writes: denoWrites,
-      reads: denoReads,
-    },
-  });
-  // lastFile.delete();
+  function done() {
+    console.log("Finished all runs");
+    cb({
+      info: { size: info.size, amount },
+      cabinet: {
+        writes: writes.slice(1),
+        reads: reads.slice(1),
+      },
+      deno: {
+        writes: denoWrites.slice(1),
+        reads: denoReads.slice(1),
+      },
+    });
+    // lastFile.delete();
+  }
+  console.log(MB + "mb size started");
+  test();
 }
 console.log("Start...");
-test();
+
+testSize(0.5, 100, function (tiny) {
+  testSize(1, 100, function (small) {
+    testSize(5, 50, function (medium) {
+      testSize(10, 10, function (large) {
+        testSize(20, 5, function (giant) {
+          new Cabinet("./runs.json").write(
+            { tiny, small, medium, large, giant },
+          );
+        });
+      });
+    });
+  });
+});

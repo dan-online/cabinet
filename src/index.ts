@@ -6,6 +6,7 @@ import { CabinetFile } from "./utils/File.ts";
 import { CabinetWrite } from "./handlers/Write.ts";
 import { CabinetDelete } from "./handlers/Delete.ts";
 import { cbErrFile } from "./types/callback.ts";
+
 /**
  * @class
  * @name Cabinet
@@ -22,6 +23,27 @@ export class Cabinet {
    * Path to the file
    */
   filePath: string = "";
+  /**
+   * File reader
+   */
+  reader: CabinetRead;
+  /**
+   * File writer
+   */
+  writer: CabinetWrite;
+  /**
+   * File deleter
+   */
+  deleter: CabinetDelete;
+  private lastDecode: { input: Uint8Array; type: string; decoded: string } = {
+    input: new Uint8Array(),
+    type: "",
+    decoded: "",
+  };
+  private lastEncode: { encoded: Uint8Array; input: string } = {
+    input: "",
+    encoded: new Uint8Array(),
+  };
   static resolve: (...paths: string[]) => string = resolve;
   constructor(file: string) {
     try {
@@ -29,26 +51,12 @@ export class Cabinet {
     } catch (err) {
       new CabinetError(err, { msg: "resolving file", file, perm: "read" });
     }
-    return;
+    this.reader = new CabinetRead(this);
+    this.writer = new CabinetWrite(this);
+    this.deleter = new CabinetDelete(this);
+    return this;
   }
-  /**
-   * File reader
-   */
-  get reader() {
-    return new CabinetRead(this);
-  }
-  /**
-   * File writer
-   */
-  get writer() {
-    return new CabinetWrite(this);
-  }
-  /**
-   * File deleter
-   */
-  get deleter() {
-    return new CabinetDelete(this);
-  }
+
   /**
    * Delete the file with an optional callback
    */
@@ -71,19 +79,27 @@ export class Cabinet {
    * Decode Uint8Array with optional decoding
    */
   decode(input: any, decoding: string = "utf-8") {
+    if (this.lastDecode.input == input && this.lastDecode.type == decoding) {
+      return this.lastDecode.decoded;
+    }
     var decoder;
     try {
       decoder = new TextDecoder(decoding.toLowerCase().split("us-")[1]);
     } catch (err) {
       decoder = new TextDecoder("utf-8");
     }
-    return decoder.decode(input);
+    const decoded = decoder.decode(input);
+    this.lastDecode = { type: decoding, decoded, input };
+    return decoded;
   }
   /**
    * Encode text to UintArray
    */
   encode(input: string) {
-    return new TextEncoder().encode(input);
+    if (input == this.lastEncode.input) return this.lastEncode.encoded;
+    const encoded = new TextEncoder().encode(input);
+    this.lastEncode = { encoded, input };
+    return encoded;
   }
   toJSON() {
     const read: CabinetFile = this.reader.sync();
