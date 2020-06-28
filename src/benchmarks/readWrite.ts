@@ -98,7 +98,10 @@ testSize(0.5, 100, function (tiny) {
     testSize(5, 50, function (medium) {
       testSize(10, 10, function (large) {
         new Cabinet("./runs.json").write(
-          { tiny, small, medium, large },
+          {
+            results: { tiny, small, medium, large },
+            about: { finish: new Date() },
+          },
         );
       });
     });

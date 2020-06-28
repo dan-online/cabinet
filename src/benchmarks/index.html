@@ -2,8 +2,8 @@
   <head>
     <link
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
-      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
       crossorigin="anonymous"
     />
   </head>
@@ -11,95 +11,32 @@
     <div id="app">
       <div class="container">
         <div class="row">
-          <!-- <div class="col-md-12 mt-2 text-center">
-            <h1>{{results.info.amount}} runs of {{results.info.size.mb}}MB</h1>
-          </div>
           <div class="col-md-12 mt-2 text-center">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Avg write speed</th>
-                  <th scope="col">Avg read speed</th>
-                  <th scope="col">Range write speed</th>
-                  <th scope="col">Range read speed</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">Cabinet</th>
-                  <td>
-                    {{ s.data.cabinet.writes.reduce((prev, curr) => prev +
-                    curr.speed,0) / s.data.cabinet.writes.length}}ms
-                  </td>
-                  <td>
-                    {{ s.data.cabinet.reads.reduce((prev, curr) => prev +
-                    curr.speed,0) / s.data.cabinet.reads.length}}ms
-                  </td>
-                  <td>
-                    {{ s.data.cabinet.writes.reduce((prev, curr) => curr.speed
-                    < prev ? curr.speed : prev,Infinity) /
-                    s.data.cabinet.writes.length}}ms - {{
-                    s.data.cabinet.writes.reduce((prev, curr) => curr.speed >
-                    prev ? curr.speed : prev,0) /
-                    s.data.cabinet.writes.length}}ms
-                  </td>
-                  <td>
-                    {{ s.data.cabinet.reads.reduce((prev, curr) => curr.speed <
-                    prev ? curr.speed : prev,Infinity) /
-                    s.data.cabinet.reads.length}}ms - {{
-                    s.data.cabinet.reads.reduce((prev, curr) => curr.speed >
-                    prev ? curr.speed : prev,0) /
-                    s.data.cabinet.reads.length}}ms
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">Deno</th>
-                  <td>
-                    {{ s.data.deno.writes.reduce((prev, curr) => prev +
-                    curr.speed,0) / s.data.deno.writes.length}}ms
-                  </td>
-                  <td>
-                    {{ s.data.deno.reads.reduce((prev, curr) => prev +
-                    curr.speed,0) / s.data.deno.reads.length}}ms
-                  </td>
-                  <td>
-                    {{ s.data.deno.writes.reduce((prev, curr) => curr.speed <
-                    prev ? curr.speed : prev,Infinity) /
-                    s.data.deno.writes.length}}ms - {{
-                    s.data.deno.writes.reduce((prev, curr) => curr.speed > prev
-                    ? curr.speed : prev,0) / s.data.deno.writes.length}}ms
-                  </td>
-                  <td>
-                    {{ s.data.deno.reads.reduce((prev, curr) => curr.speed <
-                    prev ? curr.speed : prev,Infinity) /
-                    s.data.deno.reads.length}}ms - {{
-                    s.data.deno.reads.reduce((prev, curr) => curr.speed > prev
-                    ? curr.speed : prev,0) / s.data.deno.reads.length}}ms
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div> -->
-          <div class="col-md-12 text-center mt-2 mb-4">
+            <h1>
+              Benchmarks for Cabinet
+            </h1>
+            <small>
+              Last finished: {{new Date(about.finish).toLocaleString()}}
+            </small>
+            <br />
             <button
               @click="yAxes('logarithmic')"
               :class="(charts[0] && charts[0].chart.options.scales.yAxes[0].type == 'logarithmic' ? 'disabled' : '')"
-              class="btn btn-primary mr-2"
+              class="btn btn-primary mr-2 mt-2"
             >
               Logarithmic
             </button>
             <button
               @click="yAxes('linear')"
               :class="(charts[0] && charts[0].chart.options.scales.yAxes[0].type == 'linear' ? 'disabled' : '')"
-              class="btn btn-primary"
+              class="btn btn-primary mt-2"
             >
               Linear
             </button>
           </div>
         </div>
       </div>
-      <div class="row" v-for="s in results">
+      <div class="row mt-4" v-for="s in results">
         <div class="col-md-12 text-center" v-if="s.name">
           <h3>
             {{s.name[0].toUpperCase() + s.name.slice(1)}}
@@ -182,6 +119,7 @@
       el: "#app",
       data() {
         return {
+          about: {},
           Math: Math,
           results: {
             info: { size: { mb: 0 }, amount: 0 },
@@ -218,7 +156,8 @@
           fetch("./runs.json?cache=" + Math.random())
             .then((val) => val.json())
             .then((val) => {
-              this.results = Object.entries(val).map((x) => ({
+              this.about = val.about;
+              this.results = Object.entries(val.results).map((x) => ({
                 name: x[0],
                 data: x[1],
               }));
