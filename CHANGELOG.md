@@ -1,5 +1,11 @@
 
 
+- [[d0df0ed](https://github.com/dan-online/cabinet/commit/d0df0ed965558833800040de3d3f7a8d0a7d6347)] - Merge branch 'master' of https://github.com/dan-online/deno-fs - ([DanCodes](DanCodes))
+
+- [[dba6122](https://github.com/dan-online/cabinet/commit/dba6122129f8d35f5656be181da0f1c65b81a17a)] - tests - ([DanCodes](DanCodes))
+
+- [[8747ba9](https://github.com/dan-online/cabinet/commit/8747ba98e059cbb5c51c22e8fbbcdeb963038a48)] - Update benchmark - ([dan-online](dan-online))
+
 - [[fcf2e16](https://github.com/dan-online/cabinet/commit/fcf2e16a4aecc59e6bc9703f5489cb8e5edb62b7)] - Merge branch 'master' of https://github.com/dan-online/deno-fs - ([DanCodes](DanCodes))
 
 - [[c48e8ea](https://github.com/dan-online/cabinet/commit/c48e8ea37c90d75e923b564fcc81ac0d69e83450)] - Update benchmark - ([dan-online](dan-online))
