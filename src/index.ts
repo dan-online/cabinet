@@ -5,6 +5,7 @@ import { CabinetError } from "./handlers/Error.ts";
 import { CabinetFile } from "./utils/File.ts";
 import { CabinetWrite } from "./handlers/Write.ts";
 import { CabinetDelete } from "./handlers/Delete.ts";
+import { CabinetMover } from "./handlers/Move.ts";
 import { cbErrFile } from "./types/callback.ts";
 
 /**
@@ -35,6 +36,10 @@ export class Cabinet {
    * File deleter
    */
   deleter: CabinetDelete;
+  /**
+   * File mover
+   */
+  mover: CabinetMover;
   private lastDecode: { input: Uint8Array; type: string; decoded: string } = {
     input: new Uint8Array(),
     type: "",
@@ -54,6 +59,7 @@ export class Cabinet {
     this.reader = new CabinetRead(this);
     this.writer = new CabinetWrite(this);
     this.deleter = new CabinetDelete(this);
+    this.mover = new CabinetMover(this);
     return this;
   }
 
@@ -74,6 +80,12 @@ export class Cabinet {
    */
   write(data: any, cb?: cbErrFile) {
     return this.writer.write(data, cb);
+  }
+  /**
+   * Move the file with an optional callback
+   */
+  move(data: any, cb?: cbErrFile) {
+    return this.mover.move(data, cb);
   }
   /**
    * Decode Uint8Array with optional decoding
