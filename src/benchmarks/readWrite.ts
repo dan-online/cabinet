@@ -3,17 +3,20 @@ import { Cabinet } from "../../mod.ts";
 function testSize(MB: number, amount: number, cb: (any: any) => void) {
   const tmp = Deno.env.get("TMPDIR");
   if (!tmp) throw new Error("No temp dir found");
-  const a = Array(MB * 1000000).fill("A").map((x) => {
-    let r = Math.random().toString().split(".")[1];
-    return r.split("")[r.split("").length - 1];
-  }).join("");
+  const a = Array(MB * 1000000)
+    .fill("A")
+    .map((x) => {
+      let r = Math.random().toString().split(".")[1];
+      return r.split("")[r.split("").length - 1];
+    })
+    .join("");
   let writes: any[] = [];
   let reads: any[] = [];
   let denoWrites: any[] = [];
   let denoReads: any[] = [];
   let info = new Cabinet(tmp + Math.random().toString() + ".txt").write(a);
   const File = new Cabinet(
-    tmp + Math.random().toString().split(".")[1] + ".txt",
+    tmp + Math.random().toString().split(".")[1] + ".txt"
   );
   function test() {
     let startTime = new Date().getTime();
@@ -97,9 +100,7 @@ testSize(0.5, 100, function (tiny) {
   testSize(1, 100, function (small) {
     testSize(5, 50, function (medium) {
       testSize(10, 10, function (large) {
-        new Cabinet("./runs.json").write(
-          { tiny, small, medium, large },
-        );
+        new Cabinet("./runs.json").write({ tiny, small, medium, large });
       });
     });
   });
