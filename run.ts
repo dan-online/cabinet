@@ -52,34 +52,8 @@ import {
   Cabinet,
   CabinetFile,
   CabinetError,
-} from "https://raw.githubusercontent.com/dan-online/cabinet/master/mod.ts"; // or ./mod.ts if cloned
+} from "./mod.ts"; // or ./mod.ts if cloned
 
 const file = new Cabinet("./testing.txt");
-
-file.write("The date is " + new Date());
-
-file.write("The date is " + new Date(), () => console.log("finished!"));
-
-file.writer.sync("This was written synchronously");
-
-file.writer
-  .promise("This was written with a promise")
-  .then(() => console.log("finished!"));
-
-file.writer.callback("This was written with a callback", () =>
-  console.log("finished!")
-);
-
-file.read();
-
-file.read(() => console.log("finished!"));
-
-file.reader.sync();
-
-file.reader.promise().then((cFile: CabinetFile) => {
-  console.log("read " + cFile.size.mb + "mb in promise");
-});
-
-file.reader.callback((err?: CabinetError, cFile?: CabinetFile) => {
-  console.log("read " + cFile?.size.mb + "mb in callback");
-});
+file.write("hi");
+file.move("./testing-move.txt");
