@@ -14,3 +14,4 @@ Deno.test("open file", () => {
 import "./read.ts";
 import "./delete.ts";
 import "./write.ts";
+import "./move.ts";
