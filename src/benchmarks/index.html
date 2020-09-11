@@ -43,9 +43,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12 mt-2 text-center">
-            <h1>
-              Benchmarks for Cabinet
-            </h1>
+            <h1>Benchmarks for Cabinet</h1>
             <small>
               Last finished: {{new Date(about.finish).toLocaleString()}}
             </small>
@@ -88,13 +86,15 @@
             <tbody>
               <tr>
                 <th scope="row">Cabinet</th>
-                <td>
-                  {{ s.data.cabinet.writes.reduce((prev, curr) => prev +
-                  curr.speed,0) / s.data.cabinet.writes.length}}ms
+                <td :class="s.winner.write == 'cabinet' ? 'win' : 'loss'">
+                  {{ Math.round((s.data.cabinet.writes.reduce((prev, curr) =>
+                  prev + curr.speed,0) / s.data.cabinet.writes.length) * 100) /
+                  100}}ms
                 </td>
-                <td>
-                  {{ s.data.cabinet.reads.reduce((prev, curr) => prev +
-                  curr.speed,0) / s.data.cabinet.reads.length}}ms
+                <td :class="s.winner.read == 'cabinet' ? 'win' : 'loss'">
+                  {{ Math.round((s.data.cabinet.reads.reduce((prev, curr) =>
+                  prev + curr.speed,0) / s.data.cabinet.reads.length) * 100) /
+                  100}}ms
                 </td>
                 <td>
                   {{ Math.min(...s.data.cabinet.writes.map(x => x.speed))}}ms -
@@ -107,13 +107,13 @@
               </tr>
               <tr>
                 <th scope="row">Deno</th>
-                <td>
-                  {{ s.data.deno.writes.reduce((prev, curr) => prev +
-                  curr.speed,0) / s.data.deno.writes.length}}ms
+                <td :class="s.winner.write == 'deno' ? 'win' : 'loss'">
+                  {{ Math.round((s.data.deno.writes.reduce((prev, curr) => prev
+                  + curr.speed,0) / s.data.deno.writes.length) * 100) / 100}}ms
                 </td>
-                <td>
-                  {{ s.data.deno.reads.reduce((prev, curr) => prev +
-                  curr.speed,0) / s.data.deno.reads.length}}ms
+                <td :class="s.winner.read == 'deno' ? 'win' : 'loss'">
+                  {{ Math.round((s.data.deno.reads.reduce((prev, curr) => prev +
+                  curr.speed,0) / s.data.deno.reads.length) * 100) / 100}}ms
                 </td>
                 <td>
                   {{ Math.min(...s.data.deno.writes.map(x => x.speed))}}ms - {{
@@ -192,6 +192,33 @@
                 name: x[0],
                 data: x[1],
               }));
+              for (let x = 0; x < this.results.length; x++) {
+                let result = this.results[x];
+                let avgWC =
+                  result.data.cabinet.writes.reduce(
+                    (prev, curr) => prev + curr.speed,
+                    0
+                  ) / result.data.cabinet.writes.length;
+                let avgRC =
+                  result.data.cabinet.reads.reduce(
+                    (prev, curr) => prev + curr.speed,
+                    0
+                  ) / result.data.cabinet.reads.length;
+                let avgWD =
+                  result.data.deno.writes.reduce(
+                    (prev, curr) => prev + curr.speed,
+                    0
+                  ) / result.data.deno.writes.length;
+                let avgRD =
+                  result.data.deno.reads.reduce(
+                    (prev, curr) => prev + curr.speed,
+                    0
+                  ) / result.data.deno.reads.length;
+                this.results[x].winner = {
+                  write: avgWC > avgWD ? "deno" : "cabinet",
+                  read: avgRC > avgRD ? "deno" : "cabinet",
+                };
+              }
               this.$nextTick(() => {
                 this.results.forEach((d) => {
                   const result = d.data;
@@ -333,4 +360,13 @@
       return filt;
     }
   </script>
+  <style>
+    .win {
+      background: lime;
+    }
+    .loss {
+      background: red;
+      color: white;
+    }
+  </style>
 </html>

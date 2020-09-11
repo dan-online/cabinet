@@ -33,7 +33,7 @@ function testSize(MB: number, amount: number, cb: (any: any) => void) {
       time: new Date().getTime(),
       speed: new Date().getTime() - startTime,
     });
-    if (writes.length > amount) {
+    if (writes.length >= amount) {
       console.log("Finished " + writes.length + " cabinet runs");
       console.log("starting deno test");
       return setTimeout(testDeno, 1000);
@@ -100,9 +100,11 @@ testSize(0.5, 100, function (tiny) {
   testSize(1, 100, function (small) {
     testSize(5, 50, function (medium) {
       testSize(10, 10, function (large) {
-        new Cabinet("./runs.json").write({
-          results: { tiny, small, medium, large },
-          about: { finish: new Date() },
+        testSize(25, 10, function (big) {
+          new Cabinet("./runs.json").write({
+            results: { tiny, small, medium, large, big },
+            about: { finish: new Date() },
+          });
         });
       });
     });
