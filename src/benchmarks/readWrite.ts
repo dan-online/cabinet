@@ -97,12 +97,14 @@ testSize(0.5, 100, function (tiny) {
   testSize(1, 100, function (small) {
     testSize(5, 50, function (medium) {
       testSize(10, 10, function (large) {
-        new Cabinet("./runs.json").write(
-          {
-            results: { tiny, small, medium, large },
-            about: { finish: new Date() },
-          },
-        );
+        testSize(50, 3, function (gigantic) {
+          new Cabinet("./runs.json").write(
+            {
+              results: { tiny, small, medium, large, gigantic },
+              about: { finish: new Date() },
+            },
+          );
+        });
       });
     });
   });
