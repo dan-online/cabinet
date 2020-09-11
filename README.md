@@ -14,6 +14,7 @@ A module created for [Deno](https://deno.land) by [DanCodes](https://dancodes.on
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/dan-online/cabinet)
 [![Docs](https://img.shields.io/badge/deno-docs-green?logo=deno&color=informational)](https://doc.deno.land/https/deno.land/x/cabinet/mod.ts)
 [![Docs](https://img.shields.io/badge/deno-module-red?logo=deno)](https://deno.land/x/cabinet)
+[![nest badge](https://nest.land/badge-block.svg)](https://nest.land/package/cabinet)
 
 ### Demo
 

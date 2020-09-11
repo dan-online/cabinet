@@ -1,0 +1,16 @@
+{
+  "name": "cabinet",
+  "description": "Cabinet, the easier way to manage files in Deno",
+  "stable": true,
+  "files": [
+    "src/*",
+    "src/handlers/*",
+    "src/types/*",
+    "src/utils/*",
+    "src/tests/*",
+    "./*",
+    "src/assets/*"
+  ],
+  "version": "1.1.0",
+  "repository": "https://github.com/dan-online/cabinet"
+}

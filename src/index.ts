@@ -84,8 +84,8 @@ export class Cabinet {
   /**
    * Move the file with an optional callback
    */
-  move(data: any, cb?: cbErrFile) {
-    return this.mover.move(data, cb);
+  move(location: string, cb?: (err?: CabinetError) => void) {
+    return this.mover.move(location, cb);
   }
   /**
    * Decode Uint8Array with optional decoding

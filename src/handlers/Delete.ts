@@ -50,7 +50,7 @@ export class CabinetDelete {
   /**
    * Delete the file and receive a callback
    */
-  callback(cb: cbErrFile) {
+  callback(cb: (err?: CabinetError) => void) {
     if (!cb) throw new Error("Callback not specified!");
     Deno.remove(this.filePath)
       .then(() => {
@@ -59,7 +59,7 @@ export class CabinetDelete {
       .catch((err) =>
         cb(
           new CabinetError(err, {
-            msg: "writing " + this.filePath,
+            msg: "deleting " + this.filePath,
             perm: "write",
           })
         )
@@ -69,7 +69,7 @@ export class CabinetDelete {
    * Delete the file and receive a promise
    */
   promise() {
-    return new Promise((res: (file?: CabinetFile) => void, rej) => {
+    return new Promise((res: () => void, rej) => {
       Deno.remove(this.filePath)
         .then(() => {
           return res();
