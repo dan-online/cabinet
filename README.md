@@ -18,6 +18,8 @@ A module created for [Deno](https://deno.land) by [DanCodes](https://dancodes.on
 
 ### Demo
 
+This demo will open a file called testing.txt, write to it and then finally read it and display the contents in the console.
+
 ```bash
 deno run --allow-write --allow-read https://deno.land/x/cabinet/demo.ts
 ```
