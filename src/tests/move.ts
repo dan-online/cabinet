@@ -29,3 +29,7 @@ Deno.test("cb default move", async () => {
 Deno.test("promise move", async () => {
   await movFile.mover.promise(Cabinet.resolve("./src/tests/files/testMov.txt"));
 });
+
+Deno.test("remove move", async () => {
+  new Cabinet("./src/tests/files/testMov.txt").deleter.sync();
+});
