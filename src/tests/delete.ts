@@ -14,7 +14,7 @@ Deno.test("cb default delete", async () => {
       if (c) {
         rej(new Error("File found: " + c?.contents));
       } else {
-        res();
+        res(null);
       }
     });
   });

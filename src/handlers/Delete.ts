@@ -69,10 +69,10 @@ export class CabinetDelete {
    * Delete the file and receive a promise
    */
   promise() {
-    return new Promise((res: () => void, rej) => {
+    return new Promise((res: (deleted: boolean) => void, rej) => {
       Deno.remove(this.filePath)
         .then(() => {
-          return res();
+          return res(true);
         })
         .catch((err) =>
           rej(

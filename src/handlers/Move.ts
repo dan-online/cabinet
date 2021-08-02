@@ -1,7 +1,6 @@
 import { Cabinet } from "../index.ts";
 import { CabinetFile } from "../utils/File.ts";
 import { CabinetError } from "./Error.ts";
-import { cbErrFile } from "../types/callback.ts";
 /**
  * @class
  * @name CabinetMover
@@ -82,11 +81,16 @@ export class CabinetMover {
    * Move the file and receive a promise
    */
   promise(location: string) {
-    return new Promise((res: () => void, rej) => {
-      this.callback(location, (err?: CabinetError) => {
-        if (err) rej(err);
-        else res();
-      });
-    });
+    return new Promise(
+      (
+        res: (newLocation: string) => void,
+        rej: (err: CabinetError) => void
+      ) => {
+        this.callback(location, (err?: CabinetError) => {
+          if (err) rej(err);
+          else res(location);
+        });
+      }
+    );
   }
 }
